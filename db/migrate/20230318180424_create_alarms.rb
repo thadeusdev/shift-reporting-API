@@ -6,9 +6,10 @@ class CreateAlarms < ActiveRecord::Migration[7.0]
       t.integer :team_id
       t.string :shift
       t.string :name
-      t.string :type
+      t.string :category
       t.string :root_cause
       t.string :reason_uncleared
+      t.string :action
 
       t.timestamps
     end

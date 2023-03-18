@@ -6,7 +6,7 @@ class CreateGenerators < ActiveRecord::Migration[7.0]
       t.string :name
       t.float :runtime
       t.float :temperature
-      t.float :battery
+      t.float :battery_charge
       t.integer :fuel_level
       t.string :shift
       t.integer :team_id

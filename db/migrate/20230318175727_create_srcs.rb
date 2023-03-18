@@ -7,6 +7,7 @@ class CreateSrcs < ActiveRecord::Migration[7.0]
       t.string :shift
       t.string :name
       t.string :note
+      t.string :status
 
       t.timestamps
     end

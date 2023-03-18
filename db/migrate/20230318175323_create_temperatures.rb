@@ -5,13 +5,13 @@ class CreateTemperatures < ActiveRecord::Migration[7.0]
       t.date :date
       t.string :shift
       t.integer :team_id
-      t.integer :ups_a
-      t.integer :ups_b
-      t.integer :mdb_a
-      t.integer :mdb_b
-      t.integer :data_hall
-      t.integer :battery_a
-      t.integer :battery_b
+      t.float :ups_a
+      t.float :ups_b
+      t.float :mdb_a
+      t.float :mdb_b
+      t.float :data_hall
+      t.float :battery_a
+      t.float :battery_b
 
       t.timestamps
     end
