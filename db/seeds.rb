@@ -6,45 +6,48 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-generators = Generator.create(
+generators = Generator.create!(
     [
         {
             id: 1,
             time: "7:15am",
             date: "03/3/2023",
-            name: "generator1",
-            runtime: 25.0,
-            temperature: 25.0,
+            name: "generator 1",
+            runtime: 25.1,
+            temperature: 25.1,
             battery_charge: 27.9,
             fuel_level: 2116,
             shift: "day",
-            team_id: 1,        },
+            team_id: 1,        
+        },
         {
             id: 2,
             time: "7:15am",
             date: "03/3/2023",
-            name: "generator2",
-            runtime: 25.0,
-            temperature: 25.0,
+            name: "generator 2",
+            runtime: 25.1,
+            temperature: 25.1,
             battery_charge: 27.9,
             fuel_level: 2116,
             shift: "day",
-            team_id: 1,        },
+            team_id: 1,        
+        },
         {
             id: 3,
             time: "7:15am",
             date: "03/3/2023",
-            name: "generator3",
-            runtime: 25.0,
-            temperature: 25.0,
+            name: "generator 3",
+            runtime: 25.1,
+            temperature: 25.1,
             battery_charge: 27.9,
             fuel_level: 2116,
             shift: "day",
-            team_id: 1,        },
+            team_id: 1,        
+        },
     ]
 )
 
-ups = Up.create(
+ups = Up.create!(
     [
         {
             id: 1,
@@ -103,7 +106,7 @@ ups = Up.create(
     ]
 )
 
-temperatures = Temperature.create(
+temperatures = Temperature.create!(
     [
         {
             id: 1,
@@ -150,7 +153,7 @@ temperatures = Temperature.create(
     ]
 )
 
-teams = Team.create(
+teams = Team.create!(
     [
         {
             id: 1,
@@ -170,7 +173,7 @@ teams = Team.create(
     ]
 )
 
-cracs = Crac.create(
+cracs = Crac.create!(
     [
         {
             id: 1,
@@ -205,7 +208,7 @@ cracs = Crac.create(
     ]
 )
 
-srcs = Src.create(
+srcs = Src.create!(
     [
         {
             id: 1,
@@ -250,7 +253,7 @@ srcs = Src.create(
     ]
 )
 
-equipment_states = EquipmentState.create(
+equipment_states = EquipmentState.create!(
     [
         {
             id: 1,
@@ -282,7 +285,7 @@ equipment_states = EquipmentState.create(
     ]
 )
 
-cleans = Clean.create(
+cleans = Clean.create!(
     [
         {
             id: 1,
@@ -317,7 +320,7 @@ cleans = Clean.create(
     ]
 )
 
-alarms = Alarm.create(
+alarms = Alarm.create!(
     [
         {
             id: 1,
