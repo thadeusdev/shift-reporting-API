@@ -331,7 +331,7 @@ alarms = Alarm.create!(
             name: "transducer unresponsive",
             category: "info alarm",
             root_cause: "power loss",
-            action: "acknowledged",
+            action_taken: "acknowledged",
             reason_uncleared: "keeps coming"
         },
         {
@@ -343,7 +343,7 @@ alarms = Alarm.create!(
             name: "transducer unresponsive",
             category: "info alarm",
             root_cause: "power loss",
-            action: "acknowledged",
+            action_taken: "acknowledged",
             reason_uncleared: "keeps coming"
         },
         {
@@ -355,7 +355,7 @@ alarms = Alarm.create!(
             name: "transducer unresponsive",
             category: "info alarm",
             root_cause: "power loss",
-            action: "acknowledged",
+            action_taken: "acknowledged",
             reason_uncleared: "keeps coming"
         },
     ]

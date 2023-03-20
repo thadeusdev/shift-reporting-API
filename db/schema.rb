@@ -20,7 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_18_180424) do
     t.string "category"
     t.string "root_cause"
     t.string "reason_uncleared"
-    t.string "action"
+    t.string "action_taken"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
