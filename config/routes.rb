@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :alarms, only: [:index, :show, :create, :update, :destroy]
   resources :cleans, only: [:index, :show, :create, :update, :destroy]
   resources :cracs, only: [:index, :show, :create, :update, :destroy]
-  resources :equipment_states, only: [:index]
+  resources :equipment_states, only: [:index, :show, :create, :update, :destroy]
   resources :generators, only: [:index]
   resources :srcs, only: [:index]
   resources :teams, only: [:index]
