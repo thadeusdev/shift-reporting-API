@@ -21,6 +21,28 @@ class AlarmsController < ApplicationController
         render json: alarm, status: :created
     end
 
+    def update 
+        #find
+        alarm = Alarm.find_by(id: params[:id])
+        if alarm
+        #update
+            alarm.update(alarm_params)
+            render json: alarm, status: :accepted
+        else
+            render json: {error: "Alarm no found"}, status: :not_found
+        end
+    end
+
+    def destroy
+        alarm = Alarm.find_by(id: params[:id])
+        if alarm
+            alarm.destroy
+            head :no_content
+        else
+            render json: {error: "Alarm not found"}, status: :not_found
+        end
+    end
+
     private
 
     def alarm_params
