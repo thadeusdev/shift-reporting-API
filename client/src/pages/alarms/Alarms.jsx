@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Alarms.scss';
-import {alarms} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const Alarms = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [alarms, setAlarms] = useState([])
+
+  useEffect(() => {
+    fetch("/alarms")
+    .then(res => res.json())
+    .then(alarms => setAlarms(alarms))
+  }, [])
 
   return (
     <div className='table'>
@@ -70,9 +77,9 @@ const Alarms = () => {
               <th>team member</th>
               <th>shift</th>
               <th>name</th>
-              <th>type</th>
+              <th>category</th>
               <th>root cause</th>
-              <th>action</th>
+              <th>action taken</th>
               <th>reason uncleared</th>
               <th>option</th>
             </tr>
@@ -83,12 +90,12 @@ const Alarms = () => {
               <td>{alarm.id}</td>
               <td>{alarm.time}</td>
               <td>{alarm.date}</td>
-              <td>{alarm.team}</td>
+              <td>{alarm.team_id}</td>
               <td>{alarm.shift}</td>
               <td>{alarm.name}</td>
-              <td>{alarm.type}</td>
+              <td>{alarm.category}</td>
               <td>{alarm.root_cause}</td>
-              <td>{alarm.action}</td>
+              <td>{alarm.action_taken}</td>
               <td>{alarm.reason_uncleared}</td>
               <td>
                 <Link to="/alarms/:id">

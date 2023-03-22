@@ -8,7 +8,7 @@ class TemperaturesController < ApplicationController
                 time: temperature.formatted_time,
                 date: temperature.date,
                 shift: temperature.shift,
-                team_id: temperature.team_id,
+                team_id: temperature.team.name,
                 ups_a: temperature.ups_a,
                 ups_b: temperature.ups_b,
                 mdb_a: temperature.mdb_a,

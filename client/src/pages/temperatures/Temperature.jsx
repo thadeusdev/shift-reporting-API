@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Temperature.scss';
-import {temperatures} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const Temperature = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [temperatures, setTemperatures] = useState([])
+
+  useEffect(() => {
+    fetch("/temperatures")
+    .then(res => res.json())
+    .then(temperatures => setTemperatures(temperatures))
+  },[])
   
   return (
     <div className='table'>
@@ -93,7 +100,7 @@ const Temperature = () => {
               <td>{item.id}</td>
               <td>{item.time}</td>
               <td>{item.date}</td>
-              <td>{item.team}</td>
+              <td>{item.team_id}</td>
               <td>{item.shift}</td>
               <td>{item.ups_a}</td>
               <td>{item.ups_b}</td>
@@ -101,7 +108,7 @@ const Temperature = () => {
               <td>{item.mdb_b}</td>
               <td>{item.battery_a}</td>
               <td>{item.battery_b}</td>
-              <td>{item.datahall}</td>
+              <td>{item.data_hall}</td>
               <td>
                 <Link to="/room_temperature/:id">
                 <button>
