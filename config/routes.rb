@@ -11,5 +11,5 @@ Rails.application.routes.draw do
   resources :srcs, only: [:index, :show, :create, :update, :destroy]
   resources :teams, only: [:index, :show, :create, :update, :destroy]
   resources :temperatures, only: [:index, :show, :create, :update, :destroy]
-  resources :ups, only: [:index]
+  resources :ups, only: [:index, :show, :create,]
 end

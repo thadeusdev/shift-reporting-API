@@ -7,4 +7,8 @@ class Team < ApplicationRecord
     has_many :equipment_states
     has_many :cleans
     has_many :alarms
+
+    def admin?
+        admin
+    end
 end
