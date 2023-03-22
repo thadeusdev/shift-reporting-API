@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   resources :generators, only: [:index, :show, :create, :update, :destroy]
   resources :srcs, only: [:index, :show, :create, :update, :destroy]
   resources :teams, only: [:index, :show, :create, :update, :destroy]
-  resources :temperatures, only: [:index]
+  resources :temperatures, only: [:index, :show, :create, :update, :destroy]
   resources :ups, only: [:index]
 end
