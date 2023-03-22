@@ -15,8 +15,28 @@ class UpsController < ApplicationController
     end
 
     def create
-        ups = ups.create(ups_params)
+        ups = Up.create(ups_params)
         render json: ups, status: :created
+    end
+
+    def update
+        ups = Up.find_by(id: params[:id])
+        if ups
+            ups.update(ups_params)
+            render json: ups, status: :accepted
+        else
+            render json: {error: "ups not found"}, status: :not_found
+        end
+    end
+
+    def destroy
+        ups = Up.find_by(id: params[:id])
+        if ups
+            ups.destroy
+            head :no_content
+        else
+            render json: {error: "ups not found"}, status: :not_found
+        end
     end
 
     private
