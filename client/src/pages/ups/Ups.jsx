@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Ups.scss';
-import {ups} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const Ups = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [ups, setUps] = useState([])
+
+  useEffect(() => {
+    fetch('/ups')
+    .then(res => res.json())
+    .then(ups => setUps(ups))
+  }, [])
 
   return (
     <div className='table'>
@@ -113,7 +120,7 @@ const Ups = () => {
               <td>{item.id}</td>
               <td>{item.time}</td>
               <td>{item.date}</td>
-              <td>{item.team}</td>
+              <td>{item.team_id}</td>
               <td>{item.shift}</td>
               <td>{item.name}</td>
               <td>{item.voltage_L1L2}</td>

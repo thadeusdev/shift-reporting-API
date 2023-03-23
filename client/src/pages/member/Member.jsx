@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Member.scss';
-import {members} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const Member = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [members, setMembers] = useState([])
+
+  useEffect(() => {
+    fetch('/teams')
+    .then(res => res.json())
+    .then(members => setMembers(members))
+  }, [])
 
   return (
     <div className='table'>

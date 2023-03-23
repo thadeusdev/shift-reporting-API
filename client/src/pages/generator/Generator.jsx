@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Generator.scss';
-import {generators} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const Generator = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [generators, setGenerators] = useState([])
+
+  useEffect(() => {
+    fetch('/generators')
+    .then(res => res.json())
+    .then(generators => setGenerators(generators))
+  }, [])
 
   return (
     <div className='table'>
@@ -83,7 +90,7 @@ const Generator = () => {
               <td>{item.id}</td>
               <td>{item.time}</td>
               <td>{item.date}</td>
-              <td>{item.team}</td>
+              <td>{item.team_id}</td>
               <td>{item.shift}</td>
               <td>{item.name}</td>
               <td>{item.runtime}</td>

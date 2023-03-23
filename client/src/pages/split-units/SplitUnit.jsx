@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './SplitUnit.scss';
-import {src} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const SplitUnit = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [src, setSrc] = useState([])
+
+  useEffect(() => {
+    fetch('/srcs')
+    .then(res => res.json())
+    .then(src => setSrc(src))
+  }, [])
 
   return (
     <div className='table'>
@@ -73,7 +80,7 @@ const SplitUnit = () => {
               <td>{item.id}</td>
               <td>{item.time}</td>
               <td>{item.date}</td>
-              <td>{item.team}</td>
+              <td>{item.team_id}</td>
               <td>{item.shift}</td>
               <td>{item.name}</td>
               <td>{item.status}</td>

@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './StatusEquip.scss';
-import {equipment_status} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const StatusEquip = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [equipment_status, setEquipment_status] = useState([])
+
+  useEffect(() => {
+    fetch('/equipment_states')
+    .then(res => res.json())
+    .then(equipment_status => setEquipment_status(equipment_status))
+  }, [])
 
   return (
     <div className='table'>
@@ -64,7 +71,7 @@ const StatusEquip = () => {
               <td>{item.id}</td>
               <td>{item.time}</td>
               <td>{item.date}</td>
-              <td>{item.team}</td>
+              <td>{item.team_id}</td>
               <td>{item.shift}</td>
               <td>{item.name}</td>
               <td>{item.status}</td>

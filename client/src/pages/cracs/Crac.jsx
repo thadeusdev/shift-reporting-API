@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Crac.scss';
-import {cracs} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const Crac = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [cracs, setCracs] = useState([])
+
+  useEffect(() => {
+    fetch('/cracs')
+    .then(res => res.json())
+    .then(cracs => setCracs(cracs))
+  }, [])
 
   return (
     <div className='table'>
@@ -73,7 +80,7 @@ const Crac = () => {
               <td>{crac.id}</td>
               <td>{crac.time}</td>
               <td>{crac.date}</td>
-              <td>{crac.team}</td>
+              <td>{crac.team_id}</td>
               <td>{crac.shift}</td>
               <td>{crac.name}</td>
               <td>{crac.status}</td>

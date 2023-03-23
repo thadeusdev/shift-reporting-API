@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Clean.scss';
-import {cleanliness} from '../../data';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
@@ -16,6 +15,14 @@ const Clean = () => {
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     XLSX.writeFile(wb, fileName);
   };
+
+  const [cleanliness, setCleanliness] = useState([])
+
+  useEffect(() => {
+    fetch('/cleans')
+    .then(res => res.json())
+    .then(cleanliness => setCleanliness(cleanliness))
+  }, [])
 
   return (
     <div className='table'>
@@ -73,7 +80,7 @@ const Clean = () => {
               <td>{clean.id}</td>
               <td>{clean.time}</td>
               <td>{clean.date}</td>
-              <td>{clean.team}</td>
+              <td>{clean.team_id}</td>
               <td>{clean.shift}</td>
               <td>{clean.room}</td>
               <td>{clean.status}</td>
