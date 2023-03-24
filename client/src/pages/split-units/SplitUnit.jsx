@@ -63,7 +63,6 @@ const SplitUnit = () => {
         <table>
           <thead>
             <tr>
-              <th>id</th>
               <th>time</th>
               <th>date</th>
               <th>team member</th>
@@ -77,7 +76,6 @@ const SplitUnit = () => {
           <tbody>
           {src.map((item)=>(
             <tr key={item.id}>
-              <td>{item.id}</td>
               <td>{item.formatted_time}</td>
               <td>{item.date}</td>
               <td>{item.team_name}</td>

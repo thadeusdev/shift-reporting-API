@@ -24,16 +24,48 @@ const Member = () => {
     .then(members => setMembers(members))
   }, [])
 
+  const [team_name, setTeam_name] = useState('')
+  const [role, setRole] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    fetch('/teams', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        team_name: team_name,
+        role: role
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+  }
+
+  const handleDelete = (id) => {
+    fetch(`/teams/${id}`, {
+      method: 'DELETE',
+    })
+    .then(res => res.json())
+    .then(() => {
+      setMembers(members.filter(item => item.id !== id))
+    })
+    .catch(error => console.log('error:', error))
+  }
+
   return (
     <div className='table'>
-            <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-item">
           <label htmlFor="">name:</label>
-          <input type="text" />
+          <input type="text" value={team_name} onChange={e => setTeam_name(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">role:</label>
-          <input type="text" />
+          <input type="text" value={role} onChange={e => setRole(e.target.value)} />
         </div>        
         <button>submit</button>
       </form>
@@ -43,7 +75,6 @@ const Member = () => {
         <table>
           <thead>
             <tr>
-              <th>id</th>
               <th>name</th>
               <th>role</th>
               <th>option</th>
@@ -52,8 +83,7 @@ const Member = () => {
           <tbody>
           {members.map((item)=>(
             <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
+              <td>{item.team_name}</td>
               <td>{item.role}</td>
               <td>
                 <Link to="/members/:id">
@@ -64,7 +94,7 @@ const Member = () => {
                 </button>
                 </Link>
                 <button>
-                  <div className='delete-team'>
+                  <div className='delete-team'  onClick={() => handleDelete(item.id)}>
                   <AiFillDelete style={{height: '15px', width: '15px'}} />
                   </div>
                 </button>

@@ -71,7 +71,6 @@ const Alarms = () => {
         <table>
           <thead>
             <tr>
-              <th>id</th>
               <th>time</th>
               <th>date</th>
               <th>team member</th>
@@ -87,7 +86,6 @@ const Alarms = () => {
           <tbody>
           {alarms.map((alarm)=>(
             <tr key={alarm.id}>
-              <td>{alarm.id}</td>
               <td>{alarm.formatted_time}</td>
               <td>{alarm.date}</td>
               <td>{alarm.team_name}</td>

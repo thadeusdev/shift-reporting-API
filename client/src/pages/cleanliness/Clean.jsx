@@ -63,7 +63,6 @@ const Clean = () => {
         <table>
           <thead>
             <tr>
-              <th>id</th>
               <th>time</th>
               <th>date</th>
               <th>team member</th>
@@ -77,7 +76,6 @@ const Clean = () => {
           <tbody>
           {cleanliness.map((clean)=>(
             <tr key={clean.id}>
-              <td>{clean.id}</td>
               <td>{clean.formatted_time}</td>
               <td>{clean.date}</td>
               <td>{clean.team_name}</td>

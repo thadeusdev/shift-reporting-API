@@ -63,7 +63,6 @@ const Crac = () => {
         <table>
           <thead>
             <tr>
-              <th>id</th>
               <th>time</th>
               <th>date</th>
               <th>team member</th>
@@ -77,7 +76,6 @@ const Crac = () => {
           <tbody>
           {cracs.map((crac)=>(
             <tr key={crac.id}>
-              <td>{crac.id}</td>
               <td>{crac.formatted_time}</td>
               <td>{crac.date}</td>
               <td>{crac.team_name}</td>
