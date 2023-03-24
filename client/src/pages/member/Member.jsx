@@ -3,7 +3,7 @@ import './Member.scss';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import { Link } from 'react-router-dom';
+import MemberEdit from './MemberEdit';
 
 const Member = () => {
   const exportToExcel = () => {
@@ -56,6 +56,12 @@ const Member = () => {
     .catch(error => console.log('error:', error))
   }
 
+  const [editState, setEditState] = useState(-1)
+
+  function handleEdit(id){
+    setEditState(id)
+  }
+
   return (
     <div className='table'>
       <form onSubmit={handleSubmit}>
@@ -82,17 +88,18 @@ const Member = () => {
           </thead>
           <tbody>
           {members.map((item)=>(
+            editState === item.id ? <MemberEdit item={item} members={members} setMembers={setMembers} setEditState={setEditState}/> :
             <tr key={item.id}>
               <td>{item.team_name}</td>
               <td>{item.role}</td>
               <td>
-                <Link to="/members/:id">
-                <button>
+                {/* <Link to="/members/:id"> */}
+                <button onClick={() => handleEdit(item.id)}>
                   <div  className='edit-team'>
                   <FaEdit style={{height: '15px', width: '15px'}} />
                   </div>
                 </button>
-                </Link>
+                {/* </Link> */}
                 <button>
                   <div className='delete-team'  onClick={() => handleDelete(item.id)}>
                   <AiFillDelete style={{height: '15px', width: '15px'}} />
