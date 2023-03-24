@@ -87,7 +87,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_18_180424) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string "name"
+    t.string "team_name"
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -114,7 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_18_180424) do
     t.date "date"
     t.string "shift"
     t.integer "team_id"
-    t.string "name"
+    t.string "ups_name"
     t.float "voltage_L1L2"
     t.float "voltage_L2L3"
     t.float "voltage_L3L1"

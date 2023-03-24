@@ -2,7 +2,7 @@ class GeneratorsController < ApplicationController
     wrap_parameters format: []
 
     def index
-        render json: Generator.all, except: [:created_at, :updated_at], status: :ok
+        render json: Generator.all, status: :ok
     end
 
     def show

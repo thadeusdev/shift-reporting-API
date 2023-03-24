@@ -69,9 +69,9 @@ const StatusEquip = () => {
           {equipment_status.map((item)=>(
             <tr key={item.id}>
               <td>{item.id}</td>
-              <td>{item.time}</td>
+              <td>{item.formatted_time}</td>
               <td>{item.date}</td>
-              <td>{item.team_id}</td>
+              <td>{item.team_name}</td>
               <td>{item.shift}</td>
               <td>{item.name}</td>
               <td>{item.status}</td>

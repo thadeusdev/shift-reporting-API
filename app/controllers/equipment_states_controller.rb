@@ -2,7 +2,7 @@ class EquipmentStatesController < ApplicationController
     wrap_parameters format: []
 
     def index
-        render json: EquipmentState.all, except: [:created_at, :updated_at], status: :ok
+        render json: EquipmentState.all, status: :ok
     end
 
     def show

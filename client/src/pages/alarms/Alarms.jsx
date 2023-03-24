@@ -88,9 +88,9 @@ const Alarms = () => {
           {alarms.map((alarm)=>(
             <tr key={alarm.id}>
               <td>{alarm.id}</td>
-              <td>{alarm.time}</td>
+              <td>{alarm.formatted_time}</td>
               <td>{alarm.date}</td>
-              <td>{alarm.team_id}</td>
+              <td>{alarm.team_name}</td>
               <td>{alarm.shift}</td>
               <td>{alarm.name}</td>
               <td>{alarm.category}</td>

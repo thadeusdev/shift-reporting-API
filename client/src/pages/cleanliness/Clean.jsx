@@ -78,9 +78,9 @@ const Clean = () => {
           {cleanliness.map((clean)=>(
             <tr key={clean.id}>
               <td>{clean.id}</td>
-              <td>{clean.time}</td>
+              <td>{clean.formatted_time}</td>
               <td>{clean.date}</td>
-              <td>{clean.team_id}</td>
+              <td>{clean.team_name}</td>
               <td>{clean.shift}</td>
               <td>{clean.room}</td>
               <td>{clean.status}</td>

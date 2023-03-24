@@ -1,7 +1,7 @@
 class CracsController < ApplicationController
     wrap_parameters format: []
     def index
-        render json: Crac.all, except: [:created_at, :updated_at], status: :ok
+        render json: Crac.all, status: :ok
     end
 
     def show

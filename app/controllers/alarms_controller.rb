@@ -3,20 +3,7 @@ class AlarmsController < ApplicationController
     
     # GET /alarms
     def index
-        alarms = Alarm.all.map do |alarm|
-            {
-                id: alarm.id,
-                time: alarm.formatted_time,
-                date: alarm.date,
-                shift: alarm.shift,
-                team_id: alarm.team.name,
-                name: alarm.name,
-                category: alarm.category,
-                root_cause: alarm.root_cause,
-                reason_uncleared: alarm.reason_uncleared,
-                action_taken: alarm.action_taken
-            }
-        end
+        alarms = Alarm.all
         render json: alarms
     end
 

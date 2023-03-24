@@ -118,11 +118,11 @@ const Ups = () => {
           {ups.map((item)=>(
             <tr key={item.id}>
               <td>{item.id}</td>
-              <td>{item.time}</td>
+              <td>{item.formatted_time}</td>
               <td>{item.date}</td>
-              <td>{item.team_id}</td>
+              <td>{item.team_name}</td>
               <td>{item.shift}</td>
-              <td>{item.name}</td>
+              <td>{item.ups_name}</td>
               <td>{item.voltage_L1L2}</td>
               <td>{item.voltage_L2L3}</td>
               <td>{item.voltage_L3L1}</td>

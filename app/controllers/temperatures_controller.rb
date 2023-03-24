@@ -2,22 +2,7 @@ class TemperaturesController < ApplicationController
     wrap_parameters format: []
 
     def index
-        temperatures = Temperature.all.map do |temperature|
-            {
-                id: temperature.id,
-                time: temperature.formatted_time,
-                date: temperature.date,
-                shift: temperature.shift,
-                team_id: temperature.team.name,
-                ups_a: temperature.ups_a,
-                ups_b: temperature.ups_b,
-                mdb_a: temperature.mdb_a,
-                mdb_b: temperature.mdb_b,
-                data_hall: temperature.data_hall,
-                battery_a: temperature.battery_a,
-                battery_b: temperature.battery_b
-            }
-        end
+        temperatures = Temperature.all
         render json: temperatures
     end
 
@@ -32,7 +17,7 @@ class TemperaturesController < ApplicationController
 
     def create
         temperature = Temperature.create(temperature_params)
-        render json: team, status: :created
+        render json: temperature, status: :created
     end
 
     def update

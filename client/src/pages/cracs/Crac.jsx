@@ -78,9 +78,9 @@ const Crac = () => {
           {cracs.map((crac)=>(
             <tr key={crac.id}>
               <td>{crac.id}</td>
-              <td>{crac.time}</td>
+              <td>{crac.formatted_time}</td>
               <td>{crac.date}</td>
-              <td>{crac.team_id}</td>
+              <td>{crac.team_name}</td>
               <td>{crac.shift}</td>
               <td>{crac.name}</td>
               <td>{crac.status}</td>

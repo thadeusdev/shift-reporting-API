@@ -3,7 +3,7 @@ class CleansController < ApplicationController
 
     # GET /cleans
     def index
-        render json: Clean.all, except: [:created_at, :updated_at], status: :ok
+        render json: Clean.all, status: :ok
     end
 
     def show 

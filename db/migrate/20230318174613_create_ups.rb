@@ -5,7 +5,7 @@ class CreateUps < ActiveRecord::Migration[7.0]
       t.date :date
       t.string :shift
       t.integer :team_id
-      t.string :name
+      t.string :ups_name
       t.float :voltage_L1L2
       t.float :voltage_L2L3
       t.float :voltage_L3L1

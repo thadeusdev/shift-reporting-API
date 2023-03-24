@@ -55,7 +55,7 @@ ups = Up.create!(
             date: "03/3/2023",
             shift: "day",
             team_id: 1,
-            name: "UPSA",
+            ups_name: "UPSA",
             voltage_L1L2: 415.0,
             voltage_L2L3: 415.0,
             voltage_L3L1: 415.0,
@@ -73,7 +73,7 @@ ups = Up.create!(
             date: "03/3/2023",
             shift: "day",
             team_id: 1,
-            name: "MUPS",
+            ups_name: "MUPS",
             voltage_L1L2: 415.0,
             voltage_L2L3: 415.0,
             voltage_L3L1: 415.0,
@@ -91,7 +91,7 @@ ups = Up.create!(
             date: "03/3/2023",
             shift: "day",
             team_id: 1,
-            name: "UPSB",
+            ups_name: "UPSB",
             voltage_L1L2: 415.0,
             voltage_L2L3: 415.0,
             voltage_L3L1: 415.0,
@@ -157,17 +157,17 @@ teams = Team.create!(
     [
         {
             id: 1,
-            name: "Thadeus Nyariki",
+            team_name: "Thadeus Nyariki",
             role: "engineer"
         },
         {
             id: 2,
-            name: "Franklin Yego",
+            team_name: "Franklin Yego",
             role: "engineer"
         },
         {
             id: 3,
-            name: "Jeremiah John",
+            team_name: "Jeremiah John",
             role: "engineer"
         },
     ]

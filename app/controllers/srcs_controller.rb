@@ -2,7 +2,7 @@ class SrcsController < ApplicationController
     wrap_parameters format: []
 
     def index
-        render json: Src.all, except: [:created_at, :updated_at], status: :ok
+        render json: Src.all, status: :ok
     end
 
     def show
