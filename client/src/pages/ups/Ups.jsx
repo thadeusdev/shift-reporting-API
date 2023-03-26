@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Ups.scss';
 import { FaEdit, } from "react-icons/fa";
+import { BiSave } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import { Link } from 'react-router-dom';
-
 const Ups = () => {
   const exportToExcel = () => {
     const fileName = 'data.xlsx';
@@ -18,6 +17,7 @@ const Ups = () => {
 
   const [ups, setUps] = useState([])
   const [teams, setTeams] = useState([])
+  const [editingId, setEditingId] = useState(-1);
 
   useEffect(() => {
     fetch('/ups')
@@ -76,6 +76,29 @@ const Ups = () => {
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
+  }
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
+
+  const handleUpdateClick = (id, newUps) => {
+    fetch(`/ups/${newUps.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUps),
+    })
+    .then(res => res.json())
+    .then(() => {
+      setUps(prevUp => {
+        const newUpsArray = [...prevUp];
+        newUpsArray[id] = newUps;
+        return newUpsArray;
+      })
+      setEditingId(-1)
+    })
   }
 
   return (
@@ -172,36 +195,255 @@ const Ups = () => {
             </tr>
           </thead>
           <tbody>
-          {ups.map((item)=>(
-            <tr key={item.id}>
-              <td>{item.formatted_time}</td>
-              <td>{item.date}</td>
-              <td>{item.team.team_name}</td>
-              <td>{item.shift}</td>
-              <td>{item.ups_name}</td>
-              <td>{item.voltage_L1L2}</td>
-              <td>{item.voltage_L2L3}</td>
-              <td>{item.voltage_L3L1}</td>
-              <td>{item.output_voltage_L1N}</td>
-              <td>{item.output_voltage_L2N}</td>
-              <td>{item.output_voltage_L3N}</td>
-              <td>{item.load_current_L1}</td>
-              <td>{item.load_current_L2}</td>
-              <td>{item.load_current_L3}</td>
-              <td>{item.faulty_modules}</td>
+          {ups.map((up, id)=>(
+            <tr key={up.id}>
               <td>
-                <Link to="/ups/:id">
-                <button>
-                  <div  className='edit-ups'>
-                  <FaEdit style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
-                </Link>                
-                <button>
-                  <div className='delete-ups'>
-                  <AiFillDelete style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>                
+                {editingId === id ? (
+                  <input
+                    type='time'
+                    value={up.time}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].time = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.formatted_time
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='date'
+                    value={up.date}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].date = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.date
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <select value={up.team_id} onChange={e => setUps((prevUp) => {
+                    const newUpsArray = [...prevUp];
+                    newUpsArray[id].team_id = e.target.value;
+                    return newUpsArray
+                  })}
+                  >
+                  {teams.map(item => (
+                    <option key={item.id} value={item.id}>{item.team_name}</option>
+                  ))}            
+                  </select>
+                ) : (
+                  up.team.team_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.shift}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].shift = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.shift
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.ups_name}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].ups_name = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.ups_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.voltage_L1L2}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].voltage_L1L2 = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.voltage_L1L2
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.voltage_L2L3}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].voltage_L2L3 = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.voltage_L2L3
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.voltage_L3L1}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].voltage_L3L1 = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.voltage_L3L1
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.output_voltage_L1N}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].output_voltage_L1N = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.output_voltage_L1N
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.output_voltage_L2N}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].output_voltage_L2N = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.output_voltage_L2N
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.output_voltage_L3N}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].output_voltage_L3N = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.output_voltage_L3N
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.load_current_L1}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].load_current_L1 = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.load_current_L1
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.load_current_L2}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].load_current_L2 = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.load_current_L2
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.load_current_L3}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].load_current_L3 = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.load_current_L3
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={up.faulty_modules}
+                    onChange={e => setUps((prevUp) => {
+                      const newUpsArray = [...prevUp];
+                      newUpsArray[id].faulty_modules = e.target.value;
+                      return newUpsArray
+                    })}
+                  />
+                ) : (
+                  up.faulty_modules
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <button onClick={() => handleUpdateClick(id, ups[id])}>
+                    <div  className='edit-team'>
+                    <BiSave style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                ) : (
+                  <>
+                  <button>
+                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <FaEdit style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  <button>
+                    <div className='delete-team'>
+                    <AiFillDelete style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

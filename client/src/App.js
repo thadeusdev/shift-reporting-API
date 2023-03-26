@@ -12,7 +12,6 @@ import StatusEquip from "./pages/equipment-status/StatusEquip";
 import SplitUnit from "./pages/split-units/SplitUnit";
 import Temperature from "./pages/temperatures/Temperature";
 import Ups from "./pages/ups/Ups";
-import UpsEdit from "./pages/ups/UpsEdit";
 
 function App() {
   const Layout = () =>{
@@ -74,10 +73,6 @@ function App() {
         {
           path: '/ups',
           element: <Ups />
-        },
-        {
-          path: '/ups/:id',
-          element: <UpsEdit />
         },
       ]
     }
