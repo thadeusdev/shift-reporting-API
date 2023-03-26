@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Generator.scss';
 import { FaEdit, } from "react-icons/fa";
+import { BiSave } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import { Link } from 'react-router-dom';
 
 const Generator = () => {
   const exportToExcel = () => {
@@ -18,6 +18,7 @@ const Generator = () => {
 
   const [generators, setGenerators] = useState([])
   const [teams, setTeams] = useState([])
+  const [editingId, setEditingId] = useState(-1);
 
   useEffect(() => {
     fetch('/generators')
@@ -64,6 +65,29 @@ const Generator = () => {
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
+  }
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
+
+  const handleUpdateClick = (id, newGenerators) => {
+    fetch(`/generators/${newGenerators.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newGenerators),
+    })
+    .then(res => res.json())
+    .then(() => {
+      setGenerators(prevGenerator => {
+        const newGeneratorsArray = [...prevGenerator];
+        newGeneratorsArray[id] = newGenerators;
+        return newGeneratorsArray;
+      })
+      setEditingId(-1)
+    })
   }
 
   return (
@@ -130,30 +154,165 @@ const Generator = () => {
             </tr>
           </thead>
           <tbody>
-          {generators.map((item)=>(
-            <tr key={item.id}>
-              <td>{item.formatted_time}</td>
-              <td>{item.date}</td>
-              <td>{item.team.team_name}</td>
-              <td>{item.shift}</td>
-              <td>{item.name}</td>
-              <td>{item.runtime}</td>
-              <td>{item.temperature}</td>
-              <td>{item.battery_charge}</td>
-              <td>{item.fuel_level}</td>
+          {generators.map((generator, id)=>(
+            <tr key={generator.id}>
               <td>
-                <Link to="/generators/:id">
-                <button>
-                  <div  className='edit-gen'>
-                  <FaEdit style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
-                </Link>
-                <button>
-                  <div className='delete-gen'>
-                  <AiFillDelete style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
+                {editingId === id ? (
+                  <input
+                    type='time'
+                    value={generator.time}
+                    onChange={e => setGenerators((prevGenerator) => {
+                      const newGeneratorsArray = [...prevGenerator];
+                      newGeneratorsArray[id].time = e.target.value;
+                      return newGeneratorsArray
+                    })}
+                  />
+                ) : (
+                  generator.formatted_time
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='date'
+                    value={generator.date}
+                    onChange={e => setGenerators((prevGenerator) => {
+                      const newGeneratorsArray = [...prevGenerator];
+                      newGeneratorsArray[id].date = e.target.value;
+                      return newGeneratorsArray
+                    })}
+                  />
+                ) : (
+                  generator.date
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <select value={generator.team_id} onChange={e => setGenerators((prevGenerator) => {
+                    const newGeneratorsArray = [...prevGenerator];
+                    newGeneratorsArray[id].team_id = e.target.value;
+                    return newGeneratorsArray
+                  })}
+                  >
+                  {teams.map(item => (
+                    <option key={item.id} value={item.id}>{item.team_name}</option>
+                  ))}            
+                  </select>
+                ) : (
+                  generator.team.team_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={generator.shift}
+                    onChange={e => setGenerators((prevGenerator) => {
+                      const newGeneratorsArray = [...prevGenerator];
+                      newGeneratorsArray[id].shift = e.target.value;
+                      return newGeneratorsArray
+                    })}
+                  />
+                ) : (
+                  generator.shift
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={generator.name}
+                    onChange={e => setGenerators((prevGenerator) => {
+                      const newGeneratorsArray = [...prevGenerator];
+                      newGeneratorsArray[id].name = e.target.value;
+                      return newGeneratorsArray
+                    })}
+                  />
+                ) : (
+                  generator.name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={generator.runtime}
+                    onChange={e => setGenerators((prevGenerator) => {
+                      const newGeneratorsArray = [...prevGenerator];
+                      newGeneratorsArray[id].runtime = e.target.value;
+                      return newGeneratorsArray
+                    })}
+                  />
+                ) : (
+                  generator.runtime
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={generator.temperature}
+                    onChange={e => setGenerators((prevGenerator) => {
+                      const newGeneratorsArray = [...prevGenerator];
+                      newGeneratorsArray[id].temperature = e.target.value;
+                      return newGeneratorsArray
+                    })}
+                  />
+                ) : (
+                  generator.temperature
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={generator.battery_charge}
+                    onChange={e => setGenerators((prevGenerator) => {
+                      const newGeneratorsArray = [...prevGenerator];
+                      newGeneratorsArray[id].battery_charge = e.target.value;
+                      return newGeneratorsArray
+                    })}
+                  />
+                ) : (
+                  generator.battery_charge
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={generator.fuel_level}
+                    onChange={e => setGenerators((prevGenerator) => {
+                      const newGeneratorsArray = [...prevGenerator];
+                      newGeneratorsArray[id].fuel_level = e.target.value;
+                      return newGeneratorsArray
+                    })}
+                  />
+                ) : (
+                  generator.fuel_level
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <button onClick={() => handleUpdateClick(id, generators[id])}>
+                    <div  className='edit-team'>
+                    <BiSave style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                ) : (
+                  <>
+                  <button>
+                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <FaEdit style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  <button>
+                    <div className='delete-team'>
+                    <AiFillDelete style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

@@ -6,7 +6,6 @@ import Alarms from "./pages/alarms/Alarms";
 import Clean from "./pages/cleanliness/Clean";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Generator from "./pages/generator/Generator";
-import GeneratorEdit from "./pages/generator/GeneratorEdit";
 import Member from "./pages/member/Member";
 import Crac from "./pages/cracs/Crac";
 import StatusEquip from "./pages/equipment-status/StatusEquip";
@@ -49,10 +48,6 @@ function App() {
         {
           path: '/generators',
           element: <Generator />
-        },
-        {
-          path: '/generators/:id',
-          element: <GeneratorEdit />
         },
         {
           path: '/alarms',
