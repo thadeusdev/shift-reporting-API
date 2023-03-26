@@ -10,7 +10,6 @@ import Member from "./pages/member/Member";
 import Crac from "./pages/cracs/Crac";
 import StatusEquip from "./pages/equipment-status/StatusEquip";
 import SplitUnit from "./pages/split-units/SplitUnit";
-import SplitUnitEdit from "./pages/split-units/SplitUnitEdit";
 import Temperature from "./pages/temperatures/Temperature";
 import TemperatureEdit from "./pages/temperatures/TemperatureEdit";
 import Ups from "./pages/ups/Ups";
@@ -68,10 +67,6 @@ function App() {
         {
           path: '/split_units',
           element: <SplitUnit />
-        },
-        {
-          path: '/split_units/:id',
-          element: <SplitUnitEdit />
         },
         {
           path: '/room_temperature',
