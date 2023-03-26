@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Member.scss';
 import { FaEdit, } from "react-icons/fa";
+import { BiSave } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import MemberEdit from './MemberEdit';
 
 const Member = () => {
   const exportToExcel = () => {
@@ -17,6 +17,7 @@ const Member = () => {
   };
 
   const [members, setMembers] = useState([])
+  const [editingId, setEditingId] = useState(-1);
 
   useEffect(() => {
     fetch('/teams')
@@ -45,21 +46,38 @@ const Member = () => {
     .catch(error => console.log(error))
   }
 
-  const handleDelete = (id) => {
-    fetch(`/teams/${id}`, {
-      method: 'DELETE',
+  // const handleDelete = (id) => {
+  //   fetch(`/teams/${id}`, {
+  //     method: 'DELETE',
+  //   })
+  //   .then(res => res.json())
+  //   .then(() => {
+  //     setMembers(members.filter(item => item.id !== id))
+  //   })
+  //   .catch(error => console.log('error:', error))
+  // }
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
+
+  const handleUpdateClick = (id, newMembers) => {
+    fetch(`/teams/${newMembers.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newMembers),
     })
     .then(res => res.json())
     .then(() => {
-      setMembers(members.filter(item => item.id !== id))
+      setMembers(prevMember => {
+        const newMembersArray = [...prevMember];
+        newMembersArray[id] = newMembers;
+        return newMembersArray;
+      })
+      setEditingId(-1)
     })
-    .catch(error => console.log('error:', error))
-  }
-
-  const [editState, setEditState] = useState(-1)
-
-  function handleEdit(id){
-    setEditState(id)
   }
 
   return (
@@ -87,24 +105,59 @@ const Member = () => {
             </tr>
           </thead>
           <tbody>
-          {members.map((item)=>(
-            editState === item.id ? <MemberEdit item={item} members={members} setMembers={setMembers} setEditState={setEditState}/> :
-            <tr key={item.id}>
-              <td>{item.team_name}</td>
-              <td>{item.role}</td>
+          {members.map((row, id) => (
+            <tr key={row.id}>
               <td>
-                {/* <Link to="/members/:id"> */}
-                <button onClick={() => handleEdit(item.id)}>
-                  <div  className='edit-team'>
-                  <FaEdit style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
-                {/* </Link> */}
-                <button>
-                  <div className='delete-team'  onClick={() => handleDelete(item.id)}>
-                  <AiFillDelete style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={row.team_name}
+                    onChange={e => setMembers((prevMember) => {
+                      const newMembersArray = [...prevMember];
+                      newMembersArray[id].team_name = e.target.value;
+                      return newMembersArray
+                    })}
+                  />
+                ) : (
+                  row.team_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={row.role}
+                    onChange={e => setMembers((prevMember) => {
+                      const newMembersArray = [...prevMember];
+                      newMembersArray[id].role = e.target.value;
+                      return newMembersArray
+                    })}
+                  />
+                ) : (
+                  row.role
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <button onClick={() => handleUpdateClick(id, members[id])}>
+                    <div  className='edit-team'>
+                    <BiSave style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                ) : (
+                  <>
+                  <button>
+                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <FaEdit style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  <button>
+                    <div className='delete-team'>
+                    <AiFillDelete style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
