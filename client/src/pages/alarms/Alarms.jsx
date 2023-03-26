@@ -17,11 +17,18 @@ const Alarms = () => {
   };
 
   const [alarms, setAlarms] = useState([])
+  const [teams, setTeams] = useState([])
 
   useEffect(() => {
     fetch("/alarms")
     .then(res => res.json())
     .then(alarms => setAlarms(alarms))
+  }, [])
+
+  useEffect(() => {
+    fetch('/teams')
+    .then(res => res.json())
+    .then(teams => setTeams(teams))
   }, [])
 
   const [editState, setEditState] = useState(-1)
@@ -30,44 +37,84 @@ const Alarms = () => {
     setEditState(id)
   }
 
+  const [time, setTime] = useState('')
+  const [date, setDate] = useState('')
+  const [team_id, setTeam_id] = useState(null)
+  const [shift, setShift] = useState('')
+  const [name, setName] = useState('')
+  const [category, setCategory] = useState('')
+  const [root_cause, setRoot_cause] = useState('')
+  const [action_taken, setAction_taken] = useState('')
+  const [reason_uncleared, setReason_uncleared] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    fetch('/alarms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        date: date,
+        time: time,
+        team_id: team_id,
+        shift: shift,
+        name: name,
+        category: category,
+        root_cause: root_cause,
+        action_taken: action_taken,
+        reason_uncleared: reason_uncleared
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+  }
+
   return (
     <div className='table'>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-item">
           <label htmlFor="">time:</label>
-          <input type="time" />
+          <input type="time" value={time} onChange={e => setTime(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">date:</label>
-          <input type="date" />
+          <input type="date" value={date} onChange={e => setDate(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">team:</label>
-          <input type="text" />
+          
+          <select value={team_id} onChange={e => setTeam_id(e.target.value)}>
+          {teams.map(item => (
+            <option key={item.id} value={item.id}>{item.team_name}</option>
+          ))}            
+          </select>
         </div>
         <div className="input-item">
           <label htmlFor="">shift:</label>
-          <input type="text" />
+          <input type="text" value={shift} onChange={e => setShift(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">name:</label>
-          <input type="text" />
+          <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </div>
         <div className="input-item">
-          <label htmlFor="">type:</label>
-          <input type="text" />
+          <label htmlFor="">category:</label>
+          <input type="text" value={category} onChange={e => setCategory(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">cause:</label>
-          <input type="text" />
+          <input type="text" value={root_cause} onChange={e => setRoot_cause(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">action:</label>
-          <input type="text" />
+          <input type="text" value={action_taken} onChange={e => setAction_taken(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">reason uncleared:</label>
-          <input type="text" />
+          <input type="text" value={reason_uncleared} onChange={e => setReason_uncleared(e.target.value)} />
         </div>
         <button>submit</button>
       </form>
