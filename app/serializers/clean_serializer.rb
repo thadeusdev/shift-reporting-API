@@ -1,5 +1,5 @@
 class CleanSerializer < ActiveModel::Serializer
-  attributes :id, :formatted_time, :date, :team_name, :shift, :room, :status, :note, :team
+  attributes :id, :formatted_time, :date, :team_id, :shift, :room, :status, :note, :team
 
   # def team_name
   #   object.team.team_name

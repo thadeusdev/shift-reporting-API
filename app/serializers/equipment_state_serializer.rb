@@ -1,5 +1,5 @@
 class EquipmentStateSerializer < ActiveModel::Serializer
-  attributes :id, :formatted_time, :date, :team_name, :shift, :name, :status, :team
+  attributes :id, :formatted_time, :date, :team_id, :shift, :name, :status, :team
 
   # def team_name
   #   object.team.team_name
