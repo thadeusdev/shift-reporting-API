@@ -17,6 +17,7 @@ const Ups = () => {
   };
 
   const [ups, setUps] = useState([])
+  const [teams, setTeams] = useState([])
 
   useEffect(() => {
     fetch('/ups')
@@ -24,68 +25,125 @@ const Ups = () => {
     .then(ups => setUps(ups))
   }, [])
 
+  useEffect(() => {
+    fetch('/teams')
+    .then(res => res.json())
+    .then(teams => setTeams(teams))
+  }, [])
+
+  const [time, setTime] = useState('')
+  const [date, setDate] = useState('')
+  const [team_id, setTeam_id] = useState(null)
+  const [shift, setShift] = useState('')
+  const [ups_name, setUps_name] = useState('')
+  const [voltage_L1L2, setVoltage_L1L2] = useState('')
+  const [voltage_L2L3, setVoltage_L2L3] = useState('')
+  const [voltage_L3L1, setvoltage_L3L1] = useState('')
+  const [output_voltage_L1N, setOutput_voltage_L1N] = useState('')
+  const [output_voltage_L2N, setOutput_voltage_L2N] = useState('')
+  const [output_voltage_L3N, setOutput_voltage_L3N] = useState('')
+  const [load_current_L1, setLoad_current_L1] = useState('')
+  const [load_current_L2, setLoad_current_L2] = useState('')
+  const [load_current_L3, setLoad_current_L3] = useState('')
+  const [faulty_modules, setFaulty_modules] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    fetch('/ups', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        date: date,
+        time: time,
+        team_id: team_id,
+        shift: shift,
+        ups_name: ups_name,
+        voltage_L1L2: voltage_L1L2,
+        voltage_L2L3: voltage_L2L3,
+        voltage_L3L1: voltage_L3L1,
+        output_voltage_L1N: output_voltage_L1N,
+        output_voltage_L2N: output_voltage_L2N,
+        output_voltage_L3N: output_voltage_L3N,
+        load_current_L1: load_current_L1,
+        load_current_L2: load_current_L2,
+        load_current_L3: load_current_L3,
+        faulty_modules: faulty_modules,
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+  }
+
   return (
     <div className='table'>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-item">
           <label htmlFor="">time:</label>
-          <input type="time" />
+          <input type="time" value={time} onChange={e => setTime(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">date:</label>
-          <input type="date" />
+          <input type="date" value={date} onChange={e => setDate(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">team:</label>
-          <input type="text" />
+          <select value={team_id} onChange={e => setTeam_id(e.target.value)}>
+          {teams.map(item => (
+            <option key={item.id} value={item.id}>{item.team_name}</option>
+          ))}            
+          </select>
         </div>
         <div className="input-item">
           <label htmlFor="">shift:</label>
-          <input type="text" />
+          <input type="text" value={shift} onChange={e => setShift(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">name:</label>
-          <input type="text" />
+          <input type="text" value={ups_name} onChange={e => setUps_name(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">voltage(L1-L2):</label>
-          <input type="text" />
+          <input type="text" value={voltage_L1L2} onChange={e => setVoltage_L1L2(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">voltage(L2-L3):</label>
-          <input type="text" />
+          <input type="text" voltage_L2L3 onChange={e => setVoltage_L2L3(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">voltage(L3-L1):</label>
-          <input type="text" />
+          <input type="text" value={voltage_L3L1} onChange={e => setvoltage_L3L1(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">o/p voltage(L1-N):</label>
-          <input type="text" />
+          <input type="text" value={output_voltage_L1N} onChange={e => setOutput_voltage_L1N(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">o/p voltage(L2-N):</label>
-          <input type="text" />
+          <input type="text" value={output_voltage_L2N} onChange={e => setOutput_voltage_L2N(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">o/p voltage(L3-N):</label>
-          <input type="text" />
+          <input type="text" value={output_voltage_L3N} onChange={e => setOutput_voltage_L3N(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">load current(L1):</label>
-          <input type="text" />
+          <input type="text" value={load_current_L1} onChange={e => setLoad_current_L1(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">load current(L2):</label>
-          <input type="text" />
+          <input type="text" value={load_current_L2} onChange={e => setLoad_current_L2(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">load current(L3):</label>
-          <input type="text" />
+          <input type="text" value={load_current_L3} onChange={e => setLoad_current_L3(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">Faulty modules:</label>
-          <input type="text" />
+          <input type="text" value={faulty_modules} onChange={e => setFaulty_modules(e.target.value)} />
         </div>
         <button>submit</button>
       </form>

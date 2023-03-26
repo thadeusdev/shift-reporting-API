@@ -17,59 +17,109 @@ const Temperature = () => {
   };
 
   const [temperatures, setTemperatures] = useState([])
+  const [teams, setTeams] = useState([])
 
   useEffect(() => {
     fetch("/temperatures")
     .then(res => res.json())
     .then(temperatures => setTemperatures(temperatures))
   },[])
+
+  useEffect(() => {
+    fetch('/teams')
+    .then(res => res.json())
+    .then(teams => setTeams(teams))
+  }, [])
+
+  const [time, setTime] = useState('')
+  const [date, setDate] = useState('')
+  const [team_id, setTeam_id] = useState(null)
+  const [shift, setShift] = useState('')
+  const [ups_a, setUps_a] = useState('')
+  const [ups_b, setUps_b] = useState('')
+  const [mdb_a, setMdb_a] = useState('')
+  const [mdb_b, setMdb_b] = useState('')
+  const [battery_a, setBattery_a] = useState('')
+  const [battery_b, setBattery_b] = useState('')
+  const [data_hall, setData_hall] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    fetch('/temperatures', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        date: date,
+        time: time,
+        team_id: team_id,
+        shift: shift,
+        ups_a: ups_a,
+        ups_b: ups_b,
+        mdb_a: mdb_a,
+        mdb_b: mdb_b,
+        battery_a: battery_a,
+        battery_b: battery_b,
+        data_hall: data_hall
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+  }
   
   return (
     <div className='table'>
-            <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-item">
           <label htmlFor="">time:</label>
-          <input type="time" />
+          <input type="time" value={time} onChange={e => setTime(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">date:</label>
-          <input type="date" />
+          <input type="date" value={date} onChange={e => setDate(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">team:</label>
-          <input type="text" />
+          <select value={team_id} onChange={e => setTeam_id(e.target.value)}>
+          {teams.map(item => (
+            <option key={item.id} value={item.id}>{item.team_name}</option>
+          ))}            
+          </select>
         </div>
         <div className="input-item">
           <label htmlFor="">shift:</label>
-          <input type="text" />
+          <input type="text" value={shift} onChange={e => setShift(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">ups a:</label>
-          <input type="text" />
+          <input type="text" value={ups_a} onChange={e => setUps_a(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">ups b:</label>
-          <input type="text" />
+          <input type="text" value={ups_b} onChange={e => setUps_b(e.target.value)}/>
         </div>
         <div className="input-item">
           <label htmlFor="">mdb a:</label>
-          <input type="text" />
+          <input type="text" value={mdb_a} onChange={e => setMdb_a(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">mdb b:</label>
-          <input type="text" />
+          <input type="text" value={mdb_b} onChange={e => setMdb_b(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">batt a:</label>
-          <input type="text" />
+          <input type="text" value={battery_a} onChange={e => setBattery_a(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">batt b:</label>
-          <input type="text" />
+          <input type="text" value={battery_b} onChange={e => setBattery_b(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">data hall:</label>
-          <input type="text" />
+          <input type="text" value={data_hall} onChange={e => setData_hall(e.target.value)} />
         </div>
         <button>submit</button>
       </form>

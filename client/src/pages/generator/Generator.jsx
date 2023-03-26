@@ -17,6 +17,7 @@ const Generator = () => {
   };
 
   const [generators, setGenerators] = useState([])
+  const [teams, setTeams] = useState([])
 
   useEffect(() => {
     fetch('/generators')
@@ -24,44 +25,89 @@ const Generator = () => {
     .then(generators => setGenerators(generators))
   }, [])
 
+  useEffect(() => {
+    fetch('/teams')
+    .then(res => res.json())
+    .then(teams => setTeams(teams))
+  }, [])
+
+  const [time, setTime] = useState('')
+  const [date, setDate] = useState('')
+  const [team_id, setTeam_id] = useState(null)
+  const [shift, setShift] = useState('')
+  const [name, setName] = useState('')
+  const [runtime, setRuntime] = useState('')
+  const [temperature, setTemperature] = useState('')
+  const [battery_charge, setBattery_charge] = useState('')
+  const [fuel_level, setFuel_level] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    fetch('/generators', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        date: date,
+        time: time,
+        team_id: team_id,
+        shift: shift,
+        name: name,
+        runtime: runtime,
+        temperature: temperature,
+        battery_charge: battery_charge,
+        fuel_level: fuel_level
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+  }
+
   return (
     <div className='table'>
-            <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-item">
           <label htmlFor="">time:</label>
-          <input type="time" />
+          <input type="time" value={time} onChange={e => setTime(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">date:</label>
-          <input type="date" />
+          <input type="date" value={date} onChange={e => setDate(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">team:</label>
-          <input type="text" />
+          <select value={team_id} onChange={e => setTeam_id(e.target.value)}>
+          {teams.map(item => (
+            <option key={item.id} value={item.id}>{item.team_name}</option>
+          ))}            
+          </select>
         </div>
         <div className="input-item">
           <label htmlFor="">shift:</label>
-          <input type="text" />
+          <input type="text" value={shift} onChange={e => setShift(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">name:</label>
-          <input type="text" />
+          <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">runtime:</label>
-          <input type="text" />
+          <input type="text" value={runtime} onChange={e => setRuntime(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">temperature:</label>
-          <input type="text" />
+          <input type="text" value={temperature} onChange={e => setTemperature(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">battery charge:</label>
-          <input type="text" />
+          <input type="text" value={battery_charge} onChange={e => setBattery_charge(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">fuel level:</label>
-          <input type="text" />
+          <input type="text" value={fuel_level} onChange={e => setFuel_level(e.target.value)} />
         </div>
         <button>submit</button>
       </form>

@@ -17,6 +17,7 @@ const SplitUnit = () => {
   };
 
   const [src, setSrc] = useState([])
+  const [teams, setTeams] = useState([])
 
   useEffect(() => {
     fetch('/srcs')
@@ -24,36 +25,77 @@ const SplitUnit = () => {
     .then(src => setSrc(src))
   }, [])
 
+  useEffect(() => {
+    fetch('/teams')
+    .then(res => res.json())
+    .then(teams => setTeams(teams))
+  }, [])
+
+  const [time, setTime] = useState('')
+  const [date, setDate] = useState('')
+  const [team_id, setTeam_id] = useState(null)
+  const [shift, setShift] = useState('')
+  const [name, setName] = useState('')
+  const [status, setStatus] = useState('')
+  const [note, setNote] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    fetch('/srcs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        date: date,
+        time: time,
+        team_id: team_id,
+        shift: shift,
+        name: name,
+        status: status,
+        note: note
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+  }
+
   return (
     <div className='table'>
-            <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-item">
           <label htmlFor="">time:</label>
-          <input type="time" />
+          <input type="time" value={time} onChange={e => setTime(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">date:</label>
-          <input type="date" />
+          <input type="date" value={date} onChange={e => setDate(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">team:</label>
-          <input type="text" />
+          <select value={team_id} onChange={e => setTeam_id(e.target.value)}>
+          {teams.map(item => (
+            <option key={item.id} value={item.id}>{item.team_name}</option>
+          ))}            
+          </select>
         </div>
         <div className="input-item">
           <label htmlFor="">shift:</label>
-          <input type="text" />
+          <input type="text" value={shift} onChange={e => setShift(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">name:</label>
-          <input type="text" />
+          <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">status:</label>
-          <input type="text" />
+          <input type="text" value={status} onChange={e => setStatus(e.target.value)} />
         </div>
         <div className="input-item">
           <label htmlFor="">note:</label>
-          <input type="text" />
+          <input type="text" value={note} onChange={e => setNote(e.target.value)} />
         </div>        
         <button>submit</button>
       </form>
