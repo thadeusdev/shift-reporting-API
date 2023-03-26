@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Temperature.scss';
 import { FaEdit, } from "react-icons/fa";
+import { BiSave } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import { Link } from 'react-router-dom';
 
 const Temperature = () => {
   const exportToExcel = () => {
@@ -18,6 +18,7 @@ const Temperature = () => {
 
   const [temperatures, setTemperatures] = useState([])
   const [teams, setTeams] = useState([])
+  const [editingId, setEditingId] = useState(-1);
 
   useEffect(() => {
     fetch("/temperatures")
@@ -68,6 +69,29 @@ const Temperature = () => {
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
+  }
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
+
+  const handleUpdateClick = (id, newTemperatures) => {
+    fetch(`/temperatures/${newTemperatures.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newTemperatures),
+    })
+    .then(res => res.json())
+    .then(() => {
+      setTemperatures(prevTemperature => {
+        const newTemperaturesArray = [...prevTemperature];
+        newTemperaturesArray[id] = newTemperatures;
+        return newTemperaturesArray;
+      })
+      setEditingId(-1)
+    })
   }
   
   return (
@@ -144,32 +168,195 @@ const Temperature = () => {
             </tr>
           </thead>
           <tbody>
-          {temperatures.map((item)=>(
-            <tr key={item.id}>
-              <td>{item.formatted_time}</td>
-              <td>{item.date}</td>
-              <td>{item.team.team_name}</td>
-              <td>{item.shift}</td>
-              <td>{item.ups_a}</td>
-              <td>{item.ups_b}</td>
-              <td>{item.mdb_a}</td>
-              <td>{item.mdb_b}</td>
-              <td>{item.battery_a}</td>
-              <td>{item.battery_b}</td>
-              <td>{item.data_hall}</td>
+          {temperatures.map((temperature, id)=>(
+            <tr key={temperature.id}>
               <td>
-                <Link to="/room_temperature/:id">
-                <button>
-                  <div  className='edit-temp'>
-                  <FaEdit style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
-                </Link>
-                <button>
-                  <div className='delete-temp'>
-                  <AiFillDelete style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
+                {editingId === id ? (
+                  <input
+                    type='time'
+                    value={temperature.time}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].time = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.formatted_time
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='date'
+                    value={temperature.date}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].date = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.date
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <select value={temperature.team_id} onChange={e => setTemperatures((prevTemperature) => {
+                    const newTemperaturesArray = [...prevTemperature];
+                    newTemperaturesArray[id].team_id = e.target.value;
+                    return newTemperaturesArray
+                  })}
+                  >
+                  {teams.map(item => (
+                    <option key={item.id} value={item.id}>{item.team_name}</option>
+                  ))}            
+                  </select>
+                ) : (
+                  temperature.team.team_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={temperature.shift}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].shift = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.shift
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={temperature.ups_a}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].ups_a = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.ups_a
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={temperature.ups_b}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].ups_b = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.ups_b
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={temperature.mdb_a}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].mdb_a = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.mdb_a
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={temperature.mdb_b}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].mdb_b = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.mdb_b
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={temperature.battery_a}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].battery_a = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.battery_a
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={temperature.battery_b}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].battery_b = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.battery_b
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={temperature.data_hall}
+                    onChange={e => setTemperatures((prevTemperature) => {
+                      const newTemperaturesArray = [...prevTemperature];
+                      newTemperaturesArray[id].data_hall = e.target.value;
+                      return newTemperaturesArray
+                    })}
+                  />
+                ) : (
+                  temperature.data_hall
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <button onClick={() => handleUpdateClick(id, temperatures[id])}>
+                    <div  className='edit-team'>
+                    <BiSave style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                ) : (
+                  <>
+                  <button>
+                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <FaEdit style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  <button>
+                    <div className='delete-team'>
+                    <AiFillDelete style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

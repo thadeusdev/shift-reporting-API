@@ -11,7 +11,6 @@ import Crac from "./pages/cracs/Crac";
 import StatusEquip from "./pages/equipment-status/StatusEquip";
 import SplitUnit from "./pages/split-units/SplitUnit";
 import Temperature from "./pages/temperatures/Temperature";
-import TemperatureEdit from "./pages/temperatures/TemperatureEdit";
 import Ups from "./pages/ups/Ups";
 import UpsEdit from "./pages/ups/UpsEdit";
 
@@ -71,10 +70,6 @@ function App() {
         {
           path: '/room_temperature',
           element: <Temperature />
-        },
-        {
-          path: '/room_temperature/:id',
-          element: <TemperatureEdit />
         },
         {
           path: '/ups',
