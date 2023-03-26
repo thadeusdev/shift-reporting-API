@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Crac.scss';
 import { FaEdit, } from "react-icons/fa";
+import { BiSave } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import { Link } from 'react-router-dom';
 
 const Crac = () => {
   const exportToExcel = () => {
@@ -18,6 +18,7 @@ const Crac = () => {
 
   const [cracs, setCracs] = useState([])
   const [teams, setTeams] = useState([])
+  const [editingId, setEditingId] = useState(-1);
 
   useEffect(() => {
     fetch('/cracs')
@@ -60,6 +61,29 @@ const Crac = () => {
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
+  }
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
+
+  const handleUpdateClick = (id, newCracs) => {
+    fetch(`/cracs/${newCracs.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newCracs),
+    })
+    .then(res => res.json())
+    .then(() => {
+      setCracs(prevCrac => {
+        const newCracsArray = [...prevCrac];
+        newCracsArray[id] = newCracs;
+        return newCracsArray;
+      })
+      setEditingId(-1)
+    })
   }
 
   return (
@@ -116,28 +140,135 @@ const Crac = () => {
             </tr>
           </thead>
           <tbody>
-          {cracs.map((crac)=>(
+          {cracs.map((crac, id)=>(
             <tr key={crac.id}>
-              <td>{crac.formatted_time}</td>
-              <td>{crac.date}</td>
-              <td>{crac.team.team_name}</td>
-              <td>{crac.shift}</td>
-              <td>{crac.name}</td>
-              <td>{crac.status}</td>
-              <td>{crac.note}</td>
               <td>
-                <Link to="/cracs/:id">
-                <button>
-                  <div  className='edit-crac'>
-                  <FaEdit style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
-                </Link>
-                <button>
-                  <div className='delete-crac'>
-                  <AiFillDelete style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
+                {editingId === id ? (
+                  <input
+                    type='time'
+                    value={crac.time}
+                    onChange={e => setCracs((prevCrac) => {
+                      const newCracsArray = [...prevCrac];
+                      newCracsArray[id].time = e.target.value;
+                      return newCracsArray
+                    })}
+                  />
+                ) : (
+                  crac.formatted_time
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='date'
+                    value={crac.date}
+                    onChange={e => setCracs((prevCrac) => {
+                      const newCracsArray = [...prevCrac];
+                      newCracsArray[id].date = e.target.value;
+                      return newCracsArray
+                    })}
+                  />
+                ) : (
+                  crac.date
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <select value={crac.team_id} onChange={e => setCracs((prevCrac) => {
+                    const newCracsArray = [...prevCrac];
+                    newCracsArray[id].team_id = e.target.value;
+                    return newCracsArray
+                  })}
+                  >
+                  {teams.map(item => (
+                    <option key={item.id} value={item.id}>{item.team_name}</option>
+                  ))}            
+                  </select>
+                ) : (
+                  crac.team.team_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={crac.shift}
+                    onChange={e => setCracs((prevCrac) => {
+                      const newCracsArray = [...prevCrac];
+                      newCracsArray[id].shift = e.target.value;
+                      return newCracsArray
+                    })}
+                  />
+                ) : (
+                  crac.shift
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={crac.name}
+                    onChange={e => setCracs((prevCrac) => {
+                      const newCracsArray = [...prevCrac];
+                      newCracsArray[id].name = e.target.value;
+                      return newCracsArray
+                    })}
+                  />
+                ) : (
+                  crac.name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={crac.status}
+                    onChange={e => setCracs((prevCrac) => {
+                      const newCracsArray = [...prevCrac];
+                      newCracsArray[id].status = e.target.value;
+                      return newCracsArray
+                    })}
+                  />
+                ) : (
+                  crac.status
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={crac.note}
+                    onChange={e => setCracs((prevCrac) => {
+                      const newCracsArray = [...prevCrac];
+                      newCracsArray[id].note = e.target.value;
+                      return newCracsArray
+                    })}
+                  />
+                ) : (
+                  crac.note
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <button onClick={() => handleUpdateClick(id, cracs[id])}>
+                    <div  className='edit-team'>
+                    <BiSave style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                ) : (
+                  <>
+                  <button>
+                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <FaEdit style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  <button>
+                    <div className='delete-team'>
+                    <AiFillDelete style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
