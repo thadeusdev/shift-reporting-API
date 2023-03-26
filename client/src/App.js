@@ -10,7 +10,6 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Generator from "./pages/generator/Generator";
 import GeneratorEdit from "./pages/generator/GeneratorEdit";
 import Member from "./pages/member/Member";
-import MemberEdit from "./pages/member/MemberEdit";
 import Crac from "./pages/cracs/Crac";
 import CracEdit from "./pages/cracs/CracEdit";
 import StatusEquip from "./pages/equipment-status/StatusEquip";
@@ -50,10 +49,6 @@ function App() {
         {
           path: '/members',
           element: <Member />
-        },
-        {
-          path: '/members/:id',
-          element: <MemberEdit />
         },
         {
           path: '/generators',
