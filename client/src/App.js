@@ -4,7 +4,6 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
 import Alarms from "./pages/alarms/Alarms";
 import Clean from "./pages/cleanliness/Clean";
-import CleanEdit from "./pages/cleanliness/CleanEdit";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Generator from "./pages/generator/Generator";
 import GeneratorEdit from "./pages/generator/GeneratorEdit";
@@ -64,10 +63,6 @@ function App() {
         {
           path: '/cleanliness',
           element: <Clean />
-        },
-        {
-          path: '/cleanliness/:id',
-          element: <CleanEdit />
         },
         {
           path: '/cracs',

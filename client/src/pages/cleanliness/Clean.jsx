@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Clean.scss';
 import { FaEdit, } from "react-icons/fa";
+import { BiSave } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import { Link } from 'react-router-dom';
 
 const Clean = () => {
   const exportToExcel = () => {
@@ -18,6 +18,7 @@ const Clean = () => {
 
   const [cleanliness, setCleanliness] = useState([])
   const [teams, setTeams] = useState([])
+  const [editingId, setEditingId] = useState(-1);
 
   useEffect(() => {
     fetch('/cleans')
@@ -60,6 +61,29 @@ const Clean = () => {
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
+  }
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
+
+  const handleUpdateClick = (id, newCleanliness) => {
+    fetch(`/cleans/${newCleanliness.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newCleanliness),
+    })
+    .then(res => res.json())
+    .then(() => {
+      setCleanliness(prevClean => {
+        const newCleanlinessArray = [...prevClean];
+        newCleanlinessArray[id] = newCleanliness;
+        return newCleanlinessArray;
+      })
+      setEditingId(-1)
+    })
   }
 
   return (
@@ -116,28 +140,135 @@ const Clean = () => {
             </tr>
           </thead>
           <tbody>
-          {cleanliness.map((clean)=>(
+          {cleanliness.map((clean, id)=>(
             <tr key={clean.id}>
-              <td>{clean.formatted_time}</td>
-              <td>{clean.date}</td>
-              <td>{clean.team.team_name}</td>
-              <td>{clean.shift}</td>
-              <td>{clean.room}</td>
-              <td>{clean.status}</td>
-              <td>{clean.note}</td>
               <td>
-                <Link to="/cleanliness/:id">
-                <button>
-                  <div  className='edit-clean'>
-                  <FaEdit style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
-                </Link>
-                <button>
-                  <div className='delete-clean'>
-                  <AiFillDelete style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
+                {editingId === id ? (
+                  <input
+                    type='time'
+                    value={clean.time}
+                    onChange={e => setCleanliness((prevClean) => {
+                      const newCleanlinessArray = [...prevClean];
+                      newCleanlinessArray[id].time = e.target.value;
+                      return newCleanlinessArray
+                    })}
+                  />
+                ) : (
+                  clean.formatted_time
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='date'
+                    value={clean.date}
+                    onChange={e => setCleanliness((prevClean) => {
+                      const newCleanlinessArray = [...prevClean];
+                      newCleanlinessArray[id].date = e.target.value;
+                      return newCleanlinessArray
+                    })}
+                  />
+                ) : (
+                  clean.date
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <select value={clean.team_id} onChange={e => setCleanliness((prevClean) => {
+                    const newCleanlinessArray = [...prevClean];
+                    newCleanlinessArray[id].team_id = e.target.value;
+                    return newCleanlinessArray
+                  })}
+                  >
+                  {teams.map(item => (
+                    <option key={item.id} value={item.id}>{item.team_name}</option>
+                  ))}            
+                  </select>
+                ) : (
+                  clean.team.team_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={clean.shift}
+                    onChange={e => setCleanliness((prevClean) => {
+                      const newCleanlinessArray = [...prevClean];
+                      newCleanlinessArray[id].shift = e.target.value;
+                      return newCleanlinessArray
+                    })}
+                  />
+                ) : (
+                  clean.shift
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={clean.room}
+                    onChange={e => setCleanliness((prevClean) => {
+                      const newCleanlinessArray = [...prevClean];
+                      newCleanlinessArray[id].room = e.target.value;
+                      return newCleanlinessArray
+                    })}
+                  />
+                ) : (
+                  clean.room
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={clean.status}
+                    onChange={e => setCleanliness((prevClean) => {
+                      const newCleanlinessArray = [...prevClean];
+                      newCleanlinessArray[id].status = e.target.value;
+                      return newCleanlinessArray
+                    })}
+                  />
+                ) : (
+                  clean.status
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={clean.note}
+                    onChange={e => setCleanliness((prevClean) => {
+                      const newCleanlinessArray = [...prevClean];
+                      newCleanlinessArray[id].note = e.target.value;
+                      return newCleanlinessArray
+                    })}
+                  />
+                ) : (
+                  clean.note
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <button onClick={() => handleUpdateClick(id, cleanliness[id])}>
+                    <div  className='edit-team'>
+                    <BiSave style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                ) : (
+                  <>
+                  <button>
+                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <FaEdit style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  <button>
+                    <div className='delete-team'>
+                    <AiFillDelete style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
