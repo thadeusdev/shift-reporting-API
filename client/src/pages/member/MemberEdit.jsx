@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Member.scss';
 import { BiSave } from "react-icons/bi";
 import { MdCancelPresentation } from "react-icons/md";

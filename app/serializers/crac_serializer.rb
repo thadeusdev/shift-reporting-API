@@ -1,9 +1,9 @@
 class CracSerializer < ActiveModel::Serializer
-  attributes :id, :formatted_time, :date, :shift, :name, :status, :team_name, :note
+  attributes :id, :formatted_time, :date, :shift, :name, :status, :team_name, :note, :team
 
-  def team_name
-    object.team.team_name
-  end
+  # def team_name
+  #   object.team.team_name
+  # end
 
   def formatted_time
     # format the time using strftime

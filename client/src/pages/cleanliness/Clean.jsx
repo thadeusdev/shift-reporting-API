@@ -78,7 +78,7 @@ const Clean = () => {
             <tr key={clean.id}>
               <td>{clean.formatted_time}</td>
               <td>{clean.date}</td>
-              <td>{clean.team_name}</td>
+              <td>{clean.team.team_name}</td>
               <td>{clean.shift}</td>
               <td>{clean.room}</td>
               <td>{clean.status}</td>

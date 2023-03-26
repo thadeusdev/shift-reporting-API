@@ -1,9 +1,9 @@
 class CleanSerializer < ActiveModel::Serializer
-  attributes :id, :formatted_time, :date, :team_name, :shift, :room, :status, :note
+  attributes :id, :formatted_time, :date, :team_name, :shift, :room, :status, :note, :team
 
-  def team_name
-    object.team.team_name
-  end
+  # def team_name
+  #   object.team.team_name
+  # end
 
   def formatted_time
     # format the time using strftime

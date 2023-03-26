@@ -78,7 +78,7 @@ const Crac = () => {
             <tr key={crac.id}>
               <td>{crac.formatted_time}</td>
               <td>{crac.date}</td>
-              <td>{crac.team_name}</td>
+              <td>{crac.team.team_name}</td>
               <td>{crac.shift}</td>
               <td>{crac.name}</td>
               <td>{crac.status}</td>

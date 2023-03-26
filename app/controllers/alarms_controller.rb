@@ -11,7 +11,7 @@ class AlarmsController < ApplicationController
     def show
         alarm = Alarm.find_by(id: params[:id])
         if alarm
-            render json: alarm, status: :ok
+            render json: alarm, serializer:OneAlarmSerializer
         else
             render json: {error: "Alarm not found"}, status: :not_found
         end

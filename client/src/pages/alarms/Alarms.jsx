@@ -3,7 +3,6 @@ import './Alarms.scss';
 import { FaEdit, } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import { Link } from 'react-router-dom';
 import AlarmsEdit from './AlarmsEdit';
 
 const Alarms = () => {
@@ -96,7 +95,7 @@ const Alarms = () => {
             <tr key={alarm.id}>
               <td>{alarm.formatted_time}</td>
               <td>{alarm.date}</td>
-              <td>{alarm.team_name}</td>
+              <td>{alarm.team.team_name}</td>
               <td>{alarm.shift}</td>
               <td>{alarm.name}</td>
               <td>{alarm.category}</td>

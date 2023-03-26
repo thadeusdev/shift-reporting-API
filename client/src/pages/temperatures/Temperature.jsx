@@ -98,7 +98,7 @@ const Temperature = () => {
             <tr key={item.id}>
               <td>{item.formatted_time}</td>
               <td>{item.date}</td>
-              <td>{item.team_name}</td>
+              <td>{item.team.team_name}</td>
               <td>{item.shift}</td>
               <td>{item.ups_a}</td>
               <td>{item.ups_b}</td>

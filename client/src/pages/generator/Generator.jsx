@@ -88,7 +88,7 @@ const Generator = () => {
             <tr key={item.id}>
               <td>{item.formatted_time}</td>
               <td>{item.date}</td>
-              <td>{item.team_name}</td>
+              <td>{item.team.team_name}</td>
               <td>{item.shift}</td>
               <td>{item.name}</td>
               <td>{item.runtime}</td>
