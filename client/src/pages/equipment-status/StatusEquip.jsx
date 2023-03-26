@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './StatusEquip.scss';
 import { FaEdit, } from "react-icons/fa";
+import { BiSave } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import { Link } from 'react-router-dom';
 
 const StatusEquip = () => {
   const exportToExcel = () => {
@@ -18,6 +18,7 @@ const StatusEquip = () => {
 
   const [equipment_status, setEquipment_status] = useState([])
   const [teams, setTeams] = useState([])
+  const [editingId, setEditingId] = useState(-1);
 
   useEffect(() => {
     fetch('/equipment_states')
@@ -58,6 +59,29 @@ const StatusEquip = () => {
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
+  }
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
+
+  const handleUpdateClick = (id, newEquipment_status) => {
+    fetch(`/equipment_states/${newEquipment_status.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newEquipment_status),
+    })
+    .then(res => res.json())
+    .then(() => {
+      setEquipment_status(prevEquipment_state => {
+        const newEquipment_statusArray = [...prevEquipment_state];
+        newEquipment_statusArray[id] = newEquipment_status;
+        return newEquipment_statusArray;
+      })
+      setEditingId(-1)
+    })
   }
 
   return (
@@ -109,27 +133,120 @@ const StatusEquip = () => {
             </tr>
           </thead>
           <tbody>
-          {equipment_status.map((item)=>(
-            <tr key={item.id}>
-              <td>{item.formatted_time}</td>
-              <td>{item.date}</td>
-              <td>{item.team.team_name}</td>
-              <td>{item.shift}</td>
-              <td>{item.name}</td>
-              <td>{item.status}</td>
+          {equipment_status.map((equipment_state, id)=>(
+            <tr key={equipment_state.id}>
               <td>
-                <Link to="/status/:id">
-                <button>
-                  <div  className='edit-state'>
-                  <FaEdit style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
-                </Link>
-                <button>
-                  <div className='delete-state'>
-                  <AiFillDelete style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
+                {editingId === id ? (
+                  <input
+                    type='time'
+                    value={equipment_state.time}
+                    onChange={e => setEquipment_status((prevEquipment_state) => {
+                      const newEquipment_statusArray = [...prevEquipment_state];
+                      newEquipment_statusArray[id].time = e.target.value;
+                      return newEquipment_statusArray
+                    })}
+                  />
+                ) : (
+                  equipment_state.formatted_time
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='date'
+                    value={equipment_state.date}
+                    onChange={e => setEquipment_status((prevEquipment_state) => {
+                      const newEquipment_statusArray = [...prevEquipment_state];
+                      newEquipment_statusArray[id].date = e.target.value;
+                      return newEquipment_statusArray
+                    })}
+                  />
+                ) : (
+                  equipment_state.date
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <select value={equipment_state.team_id} onChange={e => setEquipment_status((prevEquipment_state) => {
+                    const newEquipment_statusArray = [...prevEquipment_state];
+                    newEquipment_statusArray[id].team_id = e.target.value;
+                    return newEquipment_statusArray
+                  })}
+                  >
+                  {teams.map(item => (
+                    <option key={item.id} value={item.id}>{item.team_name}</option>
+                  ))}            
+                  </select>
+                ) : (
+                  equipment_state.team.team_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={equipment_state.shift}
+                    onChange={e => setEquipment_status((prevEquipment_state) => {
+                      const newEquipment_statusArray = [...prevEquipment_state];
+                      newEquipment_statusArray[id].shift = e.target.value;
+                      return newEquipment_statusArray
+                    })}
+                  />
+                ) : (
+                  equipment_state.shift
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={equipment_state.name}
+                    onChange={e => setEquipment_status((prevEquipment_state) => {
+                      const newEquipment_statusArray = [...prevEquipment_state];
+                      newEquipment_statusArray[id].name = e.target.value;
+                      return newEquipment_statusArray
+                    })}
+                  />
+                ) : (
+                  equipment_state.name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='date'
+                    value={equipment_state.status}
+                    onChange={e => setEquipment_status((prevEquipment_state) => {
+                      const newEquipment_statusArray = [...prevEquipment_state];
+                      newEquipment_statusArray[id].status = e.target.value;
+                      return newEquipment_statusArray
+                    })}
+                  />
+                ) : (
+                  equipment_state.status
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <button onClick={() => handleUpdateClick(id, equipment_status[id])}>
+                    <div  className='edit-team'>
+                    <BiSave style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                ) : (
+                  <>
+                  <button>
+                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <FaEdit style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  <button>
+                    <div className='delete-team'>
+                    <AiFillDelete style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

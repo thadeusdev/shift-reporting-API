@@ -10,7 +10,6 @@ import GeneratorEdit from "./pages/generator/GeneratorEdit";
 import Member from "./pages/member/Member";
 import Crac from "./pages/cracs/Crac";
 import StatusEquip from "./pages/equipment-status/StatusEquip";
-import StatusEquipEdit from "./pages/equipment-status/StatusEquipEdit";
 import SplitUnit from "./pages/split-units/SplitUnit";
 import SplitUnitEdit from "./pages/split-units/SplitUnitEdit";
 import Temperature from "./pages/temperatures/Temperature";
@@ -70,10 +69,6 @@ function App() {
         {
           path: '/status',
           element: <StatusEquip />
-        },
-        {
-          path: '/status/:id',
-          element: <StatusEquipEdit />
         },
         {
           path: '/split_units',
