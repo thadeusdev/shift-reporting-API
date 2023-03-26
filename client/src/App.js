@@ -3,7 +3,6 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
 import Alarms from "./pages/alarms/Alarms";
-import AlarmsEdit from "./pages/alarms/AlarmsEdit";
 import Clean from "./pages/cleanliness/Clean";
 import CleanEdit from "./pages/cleanliness/CleanEdit";
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -61,10 +60,6 @@ function App() {
         {
           path: '/alarms',
           element: <Alarms />
-        },
-        {
-          path: '/alarms/:id',
-          element: <AlarmsEdit />
         },
         {
           path: '/cleanliness',

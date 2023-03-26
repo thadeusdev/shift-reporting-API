@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Alarms.scss';
 import { FaEdit, } from "react-icons/fa";
+import { BiSave } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import * as XLSX from 'xlsx';
-import AlarmsEdit from './AlarmsEdit';
 
 const Alarms = () => {
   const exportToExcel = () => {
@@ -18,6 +18,7 @@ const Alarms = () => {
 
   const [alarms, setAlarms] = useState([])
   const [teams, setTeams] = useState([])
+  const [editingId, setEditingId] = useState(-1);
 
   useEffect(() => {
     fetch("/alarms")
@@ -30,12 +31,6 @@ const Alarms = () => {
     .then(res => res.json())
     .then(teams => setTeams(teams))
   }, [])
-
-  const [editState, setEditState] = useState(-1)
-
-  function handleEdit(id){
-    setEditState(id)
-  }
 
   const [time, setTime] = useState('')
   const [date, setDate] = useState('')
@@ -70,6 +65,29 @@ const Alarms = () => {
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
+  }
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
+
+  const handleUpdateClick = (id, newAlarms) => {
+    fetch(`/alarms/${newAlarms.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newAlarms),
+    })
+    .then(res => res.json())
+    .then(() => {
+      setAlarms(prevAlarm => {
+        const newAlarmsArray = [...prevAlarm];
+        newAlarmsArray[id] = newAlarms;
+        return newAlarmsArray;
+      })
+      setEditingId(-1)
+    })
   }
 
   return (
@@ -137,31 +155,165 @@ const Alarms = () => {
             </tr>
           </thead>
           <tbody>
-          {alarms.map((alarm)=>( 
-            editState === alarm.id ? <AlarmsEdit alarm={alarm} alarms={alarms} setAlarms={setAlarms} setEditState={setEditState}/> :      
+          {alarms.map((alarm, id)=>(      
             <tr key={alarm.id}>
-              <td>{alarm.formatted_time}</td>
-              <td>{alarm.date}</td>
-              <td>{alarm.team.team_name}</td>
-              <td>{alarm.shift}</td>
-              <td>{alarm.name}</td>
-              <td>{alarm.category}</td>
-              <td>{alarm.root_cause}</td>
-              <td>{alarm.action_taken}</td>
-              <td>{alarm.reason_uncleared}</td>
               <td>
-                {/* <Link to="/alarms/:id"> */}
-                <button onClick={() => handleEdit(alarm.id)}>
-                  <div  className='edit'>
-                  <FaEdit style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
-                {/* </Link> */}
-                <button>
-                  <div className='delete'>
-                  <AiFillDelete style={{height: '15px', width: '15px'}} />
-                  </div>
-                </button>
+                {editingId === id ? (
+                  <input
+                    type='time'
+                    value={alarm.time}
+                    onChange={e => setAlarms((prevAlarm) => {
+                      const newAlarmsArray = [...prevAlarm];
+                      newAlarmsArray[id].time = e.target.value;
+                      return newAlarmsArray
+                    })}
+                  />
+                ) : (
+                  alarm.formatted_time
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='date'
+                    value={alarm.date}
+                    onChange={e => setAlarms((prevAlarm) => {
+                      const newAlarmsArray = [...prevAlarm];
+                      newAlarmsArray[id].date = e.target.value;
+                      return newAlarmsArray
+                    })}
+                  />
+                ) : (
+                  alarm.date
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <select value={alarm.team_id} onChange={e => setAlarms((prevAlarm) => {
+                    const newAlarmsArray = [...prevAlarm];
+                    newAlarmsArray[id].team_id = e.target.value;
+                    return newAlarmsArray
+                  })}
+                  >
+                  {teams.map(item => (
+                    <option key={item.id} value={item.id}>{item.team_name}</option>
+                  ))}            
+                  </select>
+                ) : (
+                  alarm.team.team_name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={alarm.shift}
+                    onChange={e => setAlarms((prevAlarm) => {
+                      const newAlarmsArray = [...prevAlarm];
+                      newAlarmsArray[id].shift = e.target.value;
+                      return newAlarmsArray
+                    })}
+                  />
+                ) : (
+                  alarm.shift
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={alarm.name}
+                    onChange={e => setAlarms((prevAlarm) => {
+                      const newAlarmsArray = [...prevAlarm];
+                      newAlarmsArray[id].name = e.target.value;
+                      return newAlarmsArray
+                    })}
+                  />
+                ) : (
+                  alarm.name
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={alarm.category}
+                    onChange={e => setAlarms((prevAlarm) => {
+                      const newAlarmsArray = [...prevAlarm];
+                      newAlarmsArray[id].category = e.target.value;
+                      return newAlarmsArray
+                    })}
+                  />
+                ) : (
+                  alarm.category
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={alarm.root_cause}
+                    onChange={e => setAlarms((prevAlarm) => {
+                      const newAlarmsArray = [...prevAlarm];
+                      newAlarmsArray[id].root_cause = e.target.value;
+                      return newAlarmsArray
+                    })}
+                  />
+                ) : (
+                  alarm.root_cause
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={alarm.action_taken}
+                    onChange={e => setAlarms((prevAlarm) => {
+                      const newAlarmsArray = [...prevAlarm];
+                      newAlarmsArray[id].action_taken = e.target.value;
+                      return newAlarmsArray
+                    })}
+                  />
+                ) : (
+                  alarm.action_taken
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <input
+                    type='text'
+                    value={alarm.reason_uncleared}
+                    onChange={e => setAlarms((prevAlarm) => {
+                      const newAlarmsArray = [...prevAlarm];
+                      newAlarmsArray[id].reason_uncleared = e.target.value;
+                      return newAlarmsArray
+                    })}
+                  />
+                ) : (
+                  alarm.reason_uncleared
+                )}
+              </td>
+              <td>
+                {editingId === id ? (
+                  <button onClick={() => handleUpdateClick(id, alarms[id])}>
+                    <div  className='edit-team'>
+                    <BiSave style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                ) : (
+                  <>
+                  <button>
+                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <FaEdit style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  <button>
+                    <div className='delete-team'>
+                    <AiFillDelete style={{height: '15px', width: '15px'}} />
+                    </div>
+                  </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
