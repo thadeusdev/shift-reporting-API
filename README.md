@@ -1,5 +1,7 @@
-# UI
+# ERD diagram
+![Display](/client/src/images/ERD-diagram.png "Optional title")
 
+# UI
 ## show
 ![Display](/client/src/images/general.png "Optional title")
 
