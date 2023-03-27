@@ -203,7 +203,7 @@ const Alarms = () => {
                   ))}            
                   </select>
                 ) : (
-                  alarm.team.team_name
+                  alarm.team_name
                 )}
               </td>
               <td>
