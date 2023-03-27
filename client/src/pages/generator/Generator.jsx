@@ -63,7 +63,10 @@ const Generator = () => {
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(newGenerator => {
+      setGenerators([...generators, newGenerator])
+      console.log(newGenerator)
+    })
     .catch(error => console.log(error))
   }
 

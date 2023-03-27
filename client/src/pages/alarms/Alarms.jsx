@@ -63,7 +63,10 @@ const Alarms = () => {
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(newAlarm => {
+      setAlarms([...alarms, newAlarm])
+      console.log(newAlarm)
+    })
     .catch(error => console.log(error))
   }
 

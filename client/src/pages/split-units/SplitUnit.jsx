@@ -59,7 +59,10 @@ const SplitUnit = () => {
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(newSr => {
+      setSrc([...src, newSr])
+      console.log(newSr)
+    })
     .catch(error => console.log(error))
   }
 

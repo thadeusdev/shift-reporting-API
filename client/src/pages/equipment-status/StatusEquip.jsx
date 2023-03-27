@@ -57,7 +57,10 @@ const StatusEquip = () => {
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(newEquipment_state => {
+      setEquipment_status([...equipment_status, newEquipment_state])
+      console.log(newEquipment_state)
+    })
     .catch(error => console.log(error))
   }
 

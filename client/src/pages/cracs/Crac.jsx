@@ -59,7 +59,10 @@ const Crac = () => {
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(newCrac => {
+      setCracs([...cracs, newCrac])
+      console.log(newCrac)
+    })
     .catch(error => console.log(error))
   }
 

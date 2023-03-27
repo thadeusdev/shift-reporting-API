@@ -67,7 +67,10 @@ const Temperature = () => {
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(newTemperature => {
+      setTemperatures([...temperatures, newTemperature])
+      console.log(newTemperature)
+    })
     .catch(error => console.log(error))
   }
 

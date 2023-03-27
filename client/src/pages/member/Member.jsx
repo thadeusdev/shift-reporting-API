@@ -42,20 +42,12 @@ const Member = () => {
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(newMember => {
+      setMembers([...members, newMember])
+      console.log(newMember)
+    })
     .catch(error => console.log(error))
   }
-
-  // const handleDelete = (id) => {
-  //   fetch(`/teams/${id}`, {
-  //     method: 'DELETE',
-  //   })
-  //   .then(res => res.json())
-  //   .then(() => {
-  //     setMembers(members.filter(item => item.id !== id))
-  //   })
-  //   .catch(error => console.log('error:', error))
-  // }
 
   const handleEditClick = (id) => {
     setEditingId(id);
@@ -79,6 +71,17 @@ const Member = () => {
       setEditingId(-1)
     })
   }
+
+    const handleDelete = (id) => {
+      fetch(`/teams/${id}`, {
+        method: 'DELETE',
+      })
+      .then(res => res.json())
+      .then(() => {
+        setMembers(members.filter(row => row.id !== id))
+      })
+      .catch(error => console.log('error:', error))
+    }
 
   return (
     <div className='table'>
@@ -146,12 +149,12 @@ const Member = () => {
                   </button>
                 ) : (
                   <>
-                  <button>
+                  <button   onClick={() => handleEditClick(id)}>
                     <div className='delete-team'  onClick={() => handleEditClick(id)}>
                     <FaEdit style={{height: '15px', width: '15px'}} />
                     </div>
                   </button>
-                  <button>
+                  <button   onClick={(e) => handleDelete(row.id)}>
                     <div className='delete-team'>
                     <AiFillDelete style={{height: '15px', width: '15px'}} />
                     </div>

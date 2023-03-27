@@ -74,7 +74,10 @@ const Ups = () => {
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(newUp => {
+      setUps([...ups, newUp])
+      console.log(newUp)
+    })
     .catch(error => console.log(error))
   }
 
