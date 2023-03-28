@@ -194,7 +194,7 @@ const StatusEquip = () => {
                   ))}            
                   </select>
                 ) : (
-                  equipment_state.team.team_name
+                  equipment_state.team_name
                 )}
               </td>
               <td>

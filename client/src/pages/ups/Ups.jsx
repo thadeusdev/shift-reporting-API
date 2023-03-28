@@ -256,7 +256,7 @@ const Ups = () => {
                   ))}            
                   </select>
                 ) : (
-                  up.team.team_name
+                  up.team_name
                 )}
               </td>
               <td>

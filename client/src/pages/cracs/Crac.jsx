@@ -201,7 +201,7 @@ const Crac = () => {
                   ))}            
                   </select>
                 ) : (
-                  crac.team.team_name
+                  crac.team_name
                 )}
               </td>
               <td>

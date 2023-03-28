@@ -1,9 +1,9 @@
 class SrcSerializer < ActiveModel::Serializer
-  attributes :id, :formatted_time, :date, :team_id, :shift, :name, :note, :status, :team
+  attributes :id, :formatted_time, :date, :team_name, :shift, :name, :note, :status, :team
 
-  # def team_name
-  #   object.team.team_name
-  # end
+  def team_name
+    object.team.team_name
+  end
 
   def formatted_time
     # format the time using strftime

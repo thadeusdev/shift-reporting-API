@@ -229,7 +229,7 @@ const Temperature = () => {
                   ))}            
                   </select>
                 ) : (
-                  temperature.team.team_name
+                  temperature.team_name
                 )}
               </td>
               <td>

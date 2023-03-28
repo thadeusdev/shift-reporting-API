@@ -201,7 +201,7 @@ const Clean = () => {
                   ))}            
                   </select>
                 ) : (
-                  clean.team.team_name
+                  clean.team_name
                 )}
               </td>
               <td>

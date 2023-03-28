@@ -201,7 +201,7 @@ const SplitUnit = () => {
                   ))}            
                   </select>
                 ) : (
-                  sr.team.team_name
+                  sr.team_name
                 )}
               </td>
               <td>

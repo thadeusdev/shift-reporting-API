@@ -215,7 +215,7 @@ const Generator = () => {
                   ))}            
                   </select>
                 ) : (
-                  generator.team.team_name
+                  generator.team_name
                 )}
               </td>
               <td>
