@@ -44,7 +44,7 @@ const Member = () => {
     .then(res => res.json())
     .then(newMember => {
       setMembers([...members, newMember])
-      console.log(newMember)
+      // console.log(newMember)
     })
     .catch(error => console.log(error))
   }
@@ -78,7 +78,7 @@ const Member = () => {
       })
       .then(res => res.json())
       .then(() => {
-        setMembers(members.filter(row => row.id !== id))
+        setMembers(members => members.filter(row => row.id !== id))
       })
       .catch(error => console.log('error:', error))
     }
@@ -150,7 +150,7 @@ const Member = () => {
                 ) : (
                   <>
                   <button   onClick={() => handleEditClick(id)}>
-                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                    <div className='delete-team'>
                     <FaEdit style={{height: '15px', width: '15px'}} />
                     </div>
                   </button>

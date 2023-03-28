@@ -76,7 +76,7 @@ const Ups = () => {
     .then(res => res.json())
     .then(newUp => {
       setUps([...ups, newUp])
-      console.log(newUp)
+      // console.log(newUp)
     })
     .catch(error => console.log(error))
   }
@@ -104,6 +104,17 @@ const Ups = () => {
     })
   }
 
+  const handleDelete = (id) => {
+    fetch(`/ups/${id}`, {
+      method: 'DELETE',
+    })
+    .then(res => res.json())
+    .then(() => {
+      setUps(ups => ups.filter(up => up.id !== id))
+    })
+    .catch(error => console.log('error:', error))
+  }
+
   return (
     <div className='table'>
       <form onSubmit={handleSubmit}>
@@ -118,6 +129,7 @@ const Ups = () => {
         <div className="input-item">
           <label htmlFor="">team:</label>
           <select value={team_id} onChange={e => setTeam_id(e.target.value)}>
+          <option value="">Select</option>
           {teams.map(item => (
             <option key={item.id} value={item.id}>{item.team_name}</option>
           ))}            
@@ -435,12 +447,12 @@ const Ups = () => {
                   </button>
                 ) : (
                   <>
-                  <button>
-                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                  <button onClick={() => handleEditClick(id)}>
+                    <div className='delete-team'>
                     <FaEdit style={{height: '15px', width: '15px'}} />
                     </div>
                   </button>
-                  <button>
+                  <button onClick={(e) => handleDelete(up.id)}>
                     <div className='delete-team'>
                     <AiFillDelete style={{height: '15px', width: '15px'}} />
                     </div>

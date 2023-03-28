@@ -65,7 +65,7 @@ const Alarms = () => {
     .then(res => res.json())
     .then(newAlarm => {
       setAlarms([...alarms, newAlarm])
-      console.log(newAlarm)
+      // console.log(newAlarm)
     })
     .catch(error => console.log(error))
   }
@@ -93,6 +93,17 @@ const Alarms = () => {
     })
   }
 
+  const handleDelete = (id) => {
+    fetch(`/alarms/${id}`, {
+      method: 'DELETE',
+    })
+    .then(res => res.json())
+    .then(() => {
+      setAlarms(alarms => alarms.filter(alarm => alarm.id !== id))
+    })
+    .catch(error => console.log('error:', error))
+  }
+
   return (
     <div className='table'>
       <form onSubmit={handleSubmit}>
@@ -108,6 +119,7 @@ const Alarms = () => {
           <label htmlFor="">team:</label>
           
           <select value={team_id} onChange={e => setTeam_id(e.target.value)}>
+          <option value="">Select</option>
           {teams.map(item => (
             <option key={item.id} value={item.id}>{item.team_name}</option>
           ))}            
@@ -197,7 +209,7 @@ const Alarms = () => {
                     newAlarmsArray[id].team_id = e.target.value;
                     return newAlarmsArray
                   })}
-                  >
+                  >                
                   {teams.map(item => (
                     <option key={item.id} value={item.id}>{item.team_name}</option>
                   ))}            
@@ -305,12 +317,12 @@ const Alarms = () => {
                   </button>
                 ) : (
                   <>
-                  <button>
-                    <div className='delete-team'  onClick={() => handleEditClick(id)}>
+                  <button  onClick={() => handleEditClick(id)}>
+                    <div className='delete-team'>
                     <FaEdit style={{height: '15px', width: '15px'}} />
                     </div>
                   </button>
-                  <button>
+                  <button onClick={(e) => handleDelete(alarm.id)}>
                     <div className='delete-team'>
                     <AiFillDelete style={{height: '15px', width: '15px'}} />
                     </div>
