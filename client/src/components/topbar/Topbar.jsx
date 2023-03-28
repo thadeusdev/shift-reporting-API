@@ -8,7 +8,7 @@ const Topbar = () => {
       <div className="container">
         <div className="left">
           <div className="logo">
-            <img src="/img/thadeusdev-high-resolution-logo-black-on-transparent-background.png" alt="" />
+            <img src="/img/thadeus-high-resolution-logo-black-on-transparent-background.png" alt="" />
           </div>
           <div className="search">
             <input type="text" placeholder='Search' />

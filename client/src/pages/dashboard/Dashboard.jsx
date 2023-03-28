@@ -1,8 +1,11 @@
 import React from 'react'
+import PieChart from '../../components/PieChart/PieChart'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <PieChart/>
+    </div>
   )
 }
 

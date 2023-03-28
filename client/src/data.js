@@ -334,3 +334,114 @@ export const alarms = [
         reason_uncleared: "keeps coming"
     },
 ]
+
+export const data = [
+    {
+      "id": "haskell",
+      "label": "haskell",
+      "value": 340,
+      "color": "hsl(131, 70%, 50%)"
+    },
+    {
+      "id": "go",
+      "label": "go",
+      "value": 181,
+      "color": "hsl(261, 70%, 50%)"
+    },
+    {
+      "id": "ruby",
+      "label": "ruby",
+      "value": 436,
+      "color": "hsl(45, 70%, 50%)"
+    },
+    {
+      "id": "erlang",
+      "label": "erlang",
+      "value": 3,
+      "color": "hsl(235, 70%, 50%)"
+    },
+    {
+      "id": "c",
+      "label": "c",
+      "value": 475,
+      "color": "hsl(49, 70%, 50%)"
+    },
+    {
+      "id": "hack",
+      "label": "hack",
+      "value": 52,
+      "color": "hsl(247, 70%, 50%)"
+    },
+    {
+      "id": "make",
+      "label": "make",
+      "value": 546,
+      "color": "hsl(180, 70%, 50%)"
+    },
+    {
+      "id": "javascript",
+      "label": "javascript",
+      "value": 413,
+      "color": "hsl(9, 70%, 50%)"
+    },
+    {
+      "id": "php",
+      "label": "php",
+      "value": 308,
+      "color": "hsl(68, 70%, 50%)"
+    },
+    {
+      "id": "stylus",
+      "label": "stylus",
+      "value": 474,
+      "color": "hsl(57, 70%, 50%)"
+    },
+    {
+      "id": "rust",
+      "label": "rust",
+      "value": 517,
+      "color": "hsl(339, 70%, 50%)"
+    },
+    {
+      "id": "java",
+      "label": "java",
+      "value": 549,
+      "color": "hsl(109, 70%, 50%)"
+    },
+    {
+      "id": "elixir",
+      "label": "elixir",
+      "value": 422,
+      "color": "hsl(159, 70%, 50%)"
+    },
+    {
+      "id": "python",
+      "label": "python",
+      "value": 572,
+      "color": "hsl(168, 70%, 50%)"
+    },
+    {
+      "id": "sass",
+      "label": "sass",
+      "value": 85,
+      "color": "hsl(317, 70%, 50%)"
+    },
+    {
+      "id": "scala",
+      "label": "scala",
+      "value": 280,
+      "color": "hsl(71, 70%, 50%)"
+    },
+    {
+      "id": "lisp",
+      "label": "lisp",
+      "value": 443,
+      "color": "hsl(325, 70%, 50%)"
+    },
+    {
+      "id": "css",
+      "label": "css",
+      "value": 254,
+      "color": "hsl(337, 70%, 50%)"
+    }
+  ]

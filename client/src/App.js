@@ -39,6 +39,10 @@ function App() {
           element: <Dashboard />
         },
         {
+          path: '/dashboard',
+          element: <Dashboard />
+        },
+        {
           path: '/members',
           element: <Member />
         },
