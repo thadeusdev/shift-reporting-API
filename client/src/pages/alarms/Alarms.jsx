@@ -106,6 +106,7 @@ const Alarms = () => {
 
   return (
     <div className='table'>
+      <h2 style={{margin: '10px'}}>Alarms</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-item">
           <label htmlFor="">time:</label>

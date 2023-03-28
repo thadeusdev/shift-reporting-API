@@ -117,6 +117,7 @@ const Ups = () => {
 
   return (
     <div className='table'>
+      <h2 style={{margin: '10px'}}>UPS</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-item">
           <label htmlFor="">time:</label>
